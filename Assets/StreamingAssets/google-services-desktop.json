@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "725760567961",
+    "project_id": "die-h1",
+    "storage_bucket": "die-h1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725760567961:android:eef4507f40cc3654956608",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.com.unity.template.mobile2D"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPN2x5LhgGQb3Eoyvb73vQWIeKFC2GPDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
