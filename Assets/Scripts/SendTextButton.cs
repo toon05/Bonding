@@ -4,38 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+
 public class SendTextButton : MonoBehaviour
 {
-    [SerializeField] InputField inputField;
-
+    [SerializeField] GameObject inputField;
     DateTime TodayNow;
-    var db = FirebaseFirestore.DefaultInstance;
-    DocumentReference docRef
-        = db.Collection("message").Document(UserId + ":" + String(TodayNow));
 
     String UserId = "s276099";
+    String inputText;
 
     void Start() {
-        inputField = inputField.GetComponent<InputField>();
+        
     }
 
     void Update() {
         TodayNow = DateTime.Now;
+        inputText = inputField.GetComponent<InputField>().text;
     }
 
-    void OnClickEvent() {
+    public void OnClickEvent() {
         
-        if (inputField.text != NULL) {
+        if (inputText != null) {
 
-            Dictionary<string, object> message = new Dictionary<string, object>
-            {
-                {"UserId", UserId},
-                {"DateTime", TodayNow},
-                {"SendText", inputField.text}
-            };
-            docRef.SetAsync(message).ContinueWithOnMainThread(task => {
-                Debug.Log("送信完了！");
-            });
+            Debug.Log(UserId);
+            Debug.Log(TodayNow);
+            Debug.Log(inputText);
         
         }
     }
