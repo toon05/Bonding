@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DIEtest.sln"
+    "dotnet.defaultSolution": "DIEtest.sln",
+    "dotnet.preferCSharpExtension": true
 }
