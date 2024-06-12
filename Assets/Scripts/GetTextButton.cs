@@ -4,7 +4,7 @@ using Firebase.Firestore;
 using Firebase.Extensions;
 using System;
 
-public class RoadTextButton : MonoBehaviour
+public class GetTextButton : MonoBehaviour
 {
     FirebaseFirestore db;
     Query allMessagesQuery;
@@ -24,7 +24,7 @@ public class RoadTextButton : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("RoadTextButton OnClick");
+        Debug.Log("じゅしん！");
         allMessagesQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             QuerySnapshot allMessagesQuerySnapshot = task.Result;

@@ -49,7 +49,7 @@ public class SendTextButton : MonoBehaviour
                     { "Timestamp", TodayNow }
             };
             docRef.SetAsync(message).ContinueWithOnMainThread(task => {
-                Debug.Log("送信完了!");
+                Debug.Log("そーしん!");
             });
         
         }
