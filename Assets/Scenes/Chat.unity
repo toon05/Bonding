@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 9275099}
   - component: {fileID: 9275098}
   - component: {fileID: 9275097}
-  - component: {fileID: 9275100}
   m_Layer: 5
   m_Name: SendButton
   m_TagString: Untagged
@@ -206,7 +205,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9275100}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SendTextButton, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -256,20 +255,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9275095}
   m_CullTransparentMesh: 1
---- !u!114 &9275100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9275095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3011dd9471b137a4abe869673dcaaee7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputField: {fileID: 765820490}
-  firestoreServiceObject: {fileID: 753547314}
 --- !u!1 &36579414
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00020639005}
+  m_AnchoredPosition: {x: 0, y: 0.00016921977}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &36579416
@@ -933,8 +918,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u3058\u3085\u3057\u3093"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
-  m_sharedMaterial: {fileID: 6190668415305832927, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2fe8a50de0ba4204d8ae3a84bc7794f9, type: 2}
+  m_sharedMaterial: {fileID: 6190668415305832927, guid: 2fe8a50de0ba4204d8ae3a84bc7794f9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1119,6 +1104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 753547315}
   - component: {fileID: 753547316}
+  - component: {fileID: 753547317}
   m_Layer: 0
   m_Name: FirestoreService
   m_TagString: Untagged
@@ -1151,6 +1137,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33a9e72ae30bf9c4e98e5897f7d7a137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &753547317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753547314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d7e4bf9b26575408578cdb3d2d1b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &765820490
@@ -1272,7 +1270,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9275100}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SendTextButton, Assembly-CSharp
         m_MethodName: OnValueChanged
         m_Mode: 5
@@ -1399,8 +1397,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u305D\u30FC\u3057\u3093"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
-  m_sharedMaterial: {fileID: 6190668415305832927, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2fe8a50de0ba4204d8ae3a84bc7794f9, type: 2}
+  m_sharedMaterial: {fileID: 6190668415305832927, guid: 2fe8a50de0ba4204d8ae3a84bc7794f9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1725,8 +1723,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
-  m_sharedMaterial: {fileID: 6190668415305832927, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2020,8 +2018,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
-  m_sharedMaterial: {fileID: 6190668415305832927, guid: 37814c7174e3af84ca787a791ee806a8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
