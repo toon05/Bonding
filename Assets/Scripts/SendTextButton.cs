@@ -9,18 +9,19 @@ using Firebase.Extensions;
 public class SendTextButton : MonoBehaviour
 {
     [SerializeField] GameObject inputField;
-    DateTime TodayNow;
-    FirebaseFirestore db;
+    [SerializeField] GameObject firestoreServiceObject;
+    FirestoreService firestoreService;
+    DateTime todayNow;
 
-    string UserId = "s276099";
+    string userId = "s276099";
     string inputText;
 
     void Start() {
-        db = FirebaseFirestore.DefaultInstance;
+        firestoreService = firestoreServiceObject.GetComponent<FirestoreService>();
     }
 
     void Update() {
-        TodayNow = DateTime.Now;
+        todayNow = DateTime.Now;
     }
 
     /// <summary>
@@ -35,23 +36,8 @@ public class SendTextButton : MonoBehaviour
     /// 送信ボタンを押下したときにテキストが入力されていれば送信
     /// </summary>
     public void OnClick() {
-
-        if (inputText != null) {
-
-            // Debug.Log(TodayNow);
-
-            // Document("test")の名前をメッセージ毎に変更
-            DocumentReference docRef = db.Collection("messages").Document(UserId + "_" + TodayNow.ToString("yyyyMMddHHmmssfff"));
-            Dictionary<string, object> message = new Dictionary<string, object>
-            {
-                    { "UserId", UserId },
-                    { "Message", inputText },
-                    { "Timestamp", TodayNow }
-            };
-            docRef.SetAsync(message).ContinueWithOnMainThread(task => {
-                Debug.Log("そーしん!");
-            });
-        
+        if (inputText != "") {
+            firestoreService.SendData(inputText, "messages", userId, todayNow.ToString("yyyyMMddHHmmss"));
         }
     }
 }

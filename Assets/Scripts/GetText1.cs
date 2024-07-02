@@ -1,68 +1,27 @@
-using System.Collections.Generic;
-using Firebase.Firestore;
-using Firebase.Extensions;
 using UnityEngine;
-using Firebase;
 
-public class GetText1 : MonoBehaviour
+public class ResultLogger : MonoBehaviour
 {
-    FirebaseFirestore db;
-    Query query;
-    ListenerRegistration listener;
+    private FirestoreService firestoreService;
 
     // Start is called before the first frame update
     void Start()
     {
-        db = FirebaseFirestore.DefaultInstance;
-        query = db.Collection("messages").OrderBy("Timestamp").Limit(10);
-        
-        // Listenメソッドをここで呼び出す
-        listener = query.Listen(snapshot =>
-        {
-            foreach (DocumentChange change in snapshot.GetChanges())
-            {
-                if (change.ChangeType == DocumentChange.Type.Added)
-                {
-                    Debug.Log(string.Format("New message: {0}", change.Document.Id));
-                    DisplayMessage(change.Document.ToDictionary());
-                }
-                else if (change.ChangeType == DocumentChange.Type.Modified)
-                {
-                    Debug.Log(string.Format("Modified message: {0}", change.Document.Id));
-                    DisplayMessage(change.Document.ToDictionary());
-                }
-                else if (change.ChangeType == DocumentChange.Type.Removed)
-                {
-                    Debug.Log(string.Format("Removed message: {0}", change.Document.Id));
-                }
-            }
-        });
+        // FirestoreServiceクラスのインスタンスを取得
+        firestoreService = FindObjectOfType<FirestoreService>();
+
+        // FirestoreServiceクラスのresultを監視し、内容を出力
+        firestoreService.OnFirestoreDataChange += OnFirestoreDataChangeHandler;
     }
 
-    // Update is called once per frame
-    void Update()
+    // FirestoreServiceクラスのresultが更新された際に呼ばれるイベントハンドラー
+    private void OnFirestoreDataChangeHandler(DocumentChange change, DocumentSnapshot snapshot, Metadata metadata)
     {
-        
-    }
+        // FirestoreServiceクラスのresultの内容を出力
+        Debug.Log("Document ID: " + change.Document.Id);
+        Debug.Log("Change Type: " + change.Type);
+        // 他の必要な情報も必要に応じて出力できます
 
-    void DisplayMessage(Dictionary<string, object> messageData)
-    {
-        // メッセージデータをUIに反映する処理
-        string messageText = messageData["Message"].ToString();
-        Timestamp timestamp = (Timestamp)messageData["Timestamp"];
-        string time = timestamp.ToDateTime().ToString("yyyy-MM-dd HH:mm:ss");
-
-        // ここでUIにメッセージを表示する処理を実装
-        Debug.Log($"新着: {messageText} at {time}");
-        // 例: messageTextObject.text = $"{time}: {messageText}";
-    }
-
-    void OnDestroy()
-    {
-        // オブジェクトが破棄されるときにリスナーを解除する
-        if (listener != null)
-        {
-            listener.Stop();
-        }
+        // ここで必要な処理を追加することも可能
     }
 }
