@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /Assets/TextMesh Pro/Fonts
 /Assets/TextMesh Pro/Fonts
+/Assets/TextMesh Pro/Resources/Fonts & Materials
+/Assets/Resources/Audio
