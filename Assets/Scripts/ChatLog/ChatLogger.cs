@@ -25,6 +25,7 @@ public class ChatLogger : MonoBehaviour
     private void Start()
     {
         filePath = Path.Combine(Application.persistentDataPath, "chatlog.json");
+        LoadChatLog();
     }
 
     public void AddMessage(string speaker, string message)
@@ -35,7 +36,7 @@ public class ChatLogger : MonoBehaviour
             Timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"),
             Message = message
         };
-        
+
         chatLog.Messages.Add(newMessage);
         SaveChatLog();
     }
@@ -46,12 +47,18 @@ public class ChatLogger : MonoBehaviour
         File.WriteAllText(filePath, json);
     }
 
-    private void LoadChatLog()
+    public void LoadChatLog()
     {
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
             chatLog = JsonUtility.FromJson<ChatLog>(json);
         }
+    }
+
+    // ChatLogにアクセスするためのプロパティ
+    public ChatLog ChatLog
+    {
+        get { return chatLog; }
     }
 }

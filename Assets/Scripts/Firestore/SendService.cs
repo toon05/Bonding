@@ -26,7 +26,7 @@ public class SendService : MonoBehaviour
     /// <param name="sendCollectionName">送信先</param>
     /// <param name="userId">送信元</param>
     /// <param name="timeStamp">タイムスタンプ</param>
-    public void SendData(string sendText,string sendCollectionName, string userId, string timeStamp)
+    public void SendData(string sendText, string sendCollectionName, string userId, string timeStamp)
     {
         DocumentReference docRef = db.Collection(sendCollectionName).Document(userId + "_" + timeStamp);
         Dictionary<string, object> dataMap = new Dictionary<string, object>
