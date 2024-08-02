@@ -1,47 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class ChatSystem : MonoBehaviour
 {
-    private int id = 0;
-    [SerializeField] InputField chatInputField;
-    [SerializeField] GameObject chatNodePrefab;
-    [SerializeField] GameObject content;
+    [SerializeField] private ChatLogger chatLogger = null;
+    [SerializeField] private TextChatWindow textChatWindow = null;
+
     void Start()
     {
+        if (chatLogger != null && textChatWindow != null)
+        {
+            // チャットログをロードし、表示
+            chatLogger.LoadChatLog();
+            textChatWindow.DisplayChatLog(chatLogger.ChatLog);
+        }
+        else
+        {
+            Debug.LogError("ChatLogger または TextChatWindow がアサインされていません。");
+        }
     }
-    public void OnClickMineButton()
+
+    // ボタンがクリックされた時に呼ばれる関数
+    public void OnLoadChatLogButtonClicked()
     {
-        CreateChatNode(ChatRoll.MINE);
-    }
-    public void OnClickOthersButton()
-    {
-        CreateChatNode(ChatRoll.OTHERS);
-    }
-    private void CreateChatNode(ChatRoll roll)
-    {
-        id++;
-        string str = chatInputField.text;
-        chatInputField.text = "";
-        ChatData data = new ChatData(id, roll, str);
-        Debug.Log("id:" + data.id + " roll:" + roll.ToString() + " body:" + str);
-    }
-}
-public enum ChatRoll
-{
-    MINE,
-    OTHERS,
-}
-public class ChatData
-{
-    public int id;
-    public ChatRoll roll;
-    public string body;
-    public ChatData(int id, ChatRoll roll, string body)
-    {
-        this.id = id;
-        this.roll = roll;
-        this.body = body;
+        if (chatLogger != null && textChatWindow != null)
+        {
+            chatLogger.LoadChatLog();
+            textChatWindow.DisplayChatLog(chatLogger.ChatLog);
+        }
+        else
+        {
+            Debug.LogError("ChatLogger または TextChatWindow がアサインされていません。");
+        }
     }
 }

@@ -14,7 +14,6 @@ public class TextChatWindow : MonoBehaviour
     [SerializeField] private GameObject opponentComment = null;
     [SerializeField] private ScrollRect scrollRect = null;
     [SerializeField] private float maxFieldSize = 300.0f;
-    [SerializeField] private GameObject logPanel = null;  // LogPanelの参照
 
     private RectTransform selfRectTransform_ = null;
     private RectTransform scrollRectTransform_ = null;
@@ -32,24 +31,6 @@ public class TextChatWindow : MonoBehaviour
         Vector2 offsetMin = scrollRectTransform_.offsetMin;
         offsetMin.y = 0; // 入力フィールドがないので高さは固定
         scrollRectTransform_.offsetMin = offsetMin;
-
-        // LogPanelのアクティブ状態を監視
-        if (logPanel.activeSelf && !panelPreviouslyActive)
-        {
-            panelPreviouslyActive = true;
-
-            // ChatLoggerのLoadChatLogメソッドを呼び出してログを更新
-            var chatLogger = FindObjectOfType<ChatLogger>();
-            if (chatLogger != null)
-            {
-                chatLogger.LoadChatLog();  // 追加
-                DisplayChatLog(chatLogger.ChatLog);
-            }
-        }
-        else if (!logPanel.activeSelf && panelPreviouslyActive)
-        {
-            panelPreviouslyActive = false;
-        }
     }
 
     public void DisplayChatLog(ChatLog chatLog)
