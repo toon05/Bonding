@@ -10,11 +10,13 @@ public class Chat : MonoBehaviour
     [SerializeField] ChatGPTModel chatGptModel;
     [SerializeField, Range(0.0f, 2.0f), Tooltip("回答の自由度を設定します。数が大きいほど毎回異なる回答を、小さいほど毎回同じ回答をします。")] float chatGptTemperature = 1;
 
-    [SerializeField] ChatMessageView messageViewTemplete;
-    [SerializeField] InputField inputField;
-    [SerializeField] ScrollRect scrollRect;
-    [SerializeField] Button sendButton;
-    [SerializeField] Button talkButton;
+    [SerializeField] private ChatMessageView messageViewTemplete;
+    [SerializeField] private InputField inputField;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private Button sendButton;
+    [SerializeField] private Button talkButton;
+    [SerializeField] private SendService sendService;
+    [SerializeField] private ChatLogger chatLogger;
     [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "In this service where you raise a robot on your smartphone, you are a young robot being raised by a couple. Please respond to our conversations in simple, childish language. If something says [instructions], it is a command from the system, so please rewrite it to fit your worldview and ask the user. Also, please do not speak until you are spoken to or given instructions.";
     [SerializeField, Tooltip("パートナーに共有すべきか否かを判別するAIのsystem")] static string determineContent = "You are a robot raised by a couple. Please decide whether they will be pleased or displeased when I tell them what I have told you. If you should tell them, output “TRUE”; if not, output “FALSE”. For example, output TRUE if “seeing you smile makes me feel better” and FALSE if “I want you to at least do the dishes.";
     
@@ -87,7 +89,7 @@ public class Chat : MonoBehaviour
     /// <summary>
     /// 会話ボタンが押された時の処理
     /// </summary>
-    void OnTalkClick()
+    private void OnTalkClick()
     {
         int talkCategory = Random.Range(0, 3);
 
@@ -137,13 +139,16 @@ public class Chat : MonoBehaviour
         
         // ChatGPTの返信を待つ
         ChatCompletionRequest().Forget();
+        
+        // 総会話数を1増やす
+        TalkCount++;
     }
 
     /// <summary>
     /// ChatGPTの返信を待つ
     /// </summary>
     /// <returns></returns>
-    async UniTask ChatCompletionRequest()
+    private async UniTask ChatCompletionRequest()
     {
         // ChatGPTの返信待機中は、送信ボタンを非アクティブにする
         sendButton.interactable = false;
@@ -191,7 +196,7 @@ public class Chat : MonoBehaviour
     /// パートナーに共有すべきかを判定する
     /// </summary>
     /// <param name="message"></param>
-    async UniTask DetermineWhetherToShare(string message)
+    private async UniTask DetermineWhetherToShare(string message)
     {
         var cancellationToken = this.GetCancellationTokenOnDestroy();
         
@@ -216,9 +221,7 @@ public class Chat : MonoBehaviour
             // パートナーに共有する
             Debug.Log("パートナーに、今の会話内容を共有します。");
             
-            
-            
-            
+            //sendService.GetComponent<SendService>()?.SendData();
         }
         else
         {
@@ -226,21 +229,30 @@ public class Chat : MonoBehaviour
             Debug.Log("今の会話の内容は、パートナーに共有しません。");
         }
     }
-
+    
     /// <summary>
-    /// メッセージを画面にテキストとして表示する
+    /// メッセージをロボットの吹き出しに表示する
     /// </summary>
-    /// <param name="message"></param>
-    void AppendMessage(OpenAIChatCompletionAPI.Message message, bool showTimeline)
+    /// <param name="message">表示するメッセージ</param>
+    /// <param name="isShowSpeechBalloon">吹き出しに表示するか否か</param>
+    private void AppendMessage(OpenAIChatCompletionAPI.Message message, bool isShowSpeechBalloon)
     {
         // 会話の履歴をリストに追加して保存する
         context.Add(message);
 
-        TalkCount++; // 総会話数を+1
         if (TalkCount == 15 || TalkCount == 25 || TalkCount == 30) _canTalkEvent = true;
         Debug.Log("総会話数：" + TalkCount);
 
-        if (!showTimeline) return;
+        if (!isShowSpeechBalloon) return;
+        
+        // 吹き出しを表示する処理
+        
+        
+        
+        // ログに追加する処理
+        chatLogger.AddMessage("BOT", message.content);
+        
+        
         var messageView = Instantiate(messageViewTemplete);
         messageView.gameObject.name = "message";
         messageView.gameObject.SetActive(true);
