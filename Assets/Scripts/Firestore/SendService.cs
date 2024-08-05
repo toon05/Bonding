@@ -27,18 +27,18 @@ public class SendService : MonoBehaviour
     /// <param name="collectionName">送信先(events, relations)</param>
     /// <param name="userId">送信元</param>
     /// <param name="timeStamp">タイムスタンプ</param>
-    public void SendData(string sendText, string collectionName, string userId)
+    public void SendData(string collectionName, Dictionary<string, object> dictionary)
     {
-        string timeStamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
-        DocumentReference docRef = db.Collection(collectionName).Document(userId + "_" + timeStamp);
-        Dictionary<string, object> dataMap = new Dictionary<string, object>
+        db.Collection(collectionName).AddAsync(dictionary).ContinueWithOnMainThread(task =>
         {
-            { "userid", userId },
-            { "timestamp", timeStamp },
-            { "message", sendText }
-        };
-        docRef.SetAsync(dataMap).ContinueWithOnMainThread(task => {
-            Debug.Log("そーしん!!!!");
+            if (task.IsCompleted)
+            {
+                Debug.Log("Document added with ID: " + task.Result.Id);
+            }
+            else if (task.IsFaulted)
+            {
+                Debug.LogError("Error adding document: " + task.Exception);
+            }
         });
     }
 }

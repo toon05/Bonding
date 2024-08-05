@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Firebase.Firestore;
+using Firebase.Extensions;
 using UnityEngine;
 
 public class ReceiveService : MonoBehaviour
@@ -53,6 +54,38 @@ public class ReceiveService : MonoBehaviour
         // ここでUIにメッセージを表示する処理を実装
         Debug.Log($"新着: {messageText} at {time}");
         // 例: messageTextObject.text = $"{time}: {messageText}";
+    }
+
+    // コレクションからデータを取得するメソッド
+    public void GetDataFromCollection(string collectionName)
+    {
+        if (db == null)
+        {
+            Debug.LogError("Firestore is not initialized.");
+            return;
+        }
+
+        CollectionReference collectionRef = db.Collection(collectionName);
+        collectionRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Error getting documents: " + task.Exception);
+                return;
+            }
+
+            QuerySnapshot snapshot = task.Result;
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                Dictionary<string, object> documentData = document.ToDictionary();
+                Debug.Log($"Document data for {document.Id}: {documentData}");
+                // ここで documentData を処理する
+                foreach(string key in documentData.Keys)
+                {
+                    Debug.Log($"{key}: {documentData[key]}");
+                }
+            }
+        });
     }
 
     void OnDestroy()

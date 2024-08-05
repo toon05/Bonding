@@ -1,19 +1,33 @@
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TypeWriterText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textObj = default;
-    [SerializeField] private AudioClip typeSound = null; // 追加: タイプライター音のクリップ
-    [SerializeField] private AudioSource audioSource = null; // 追加: 音を再生するためのAudioSource
+    [SerializeField] private AudioClip typeSound = null; // タイプライター音のクリップ
+    [SerializeField] private AudioSource audioSource = null; // 音を再生するためのAudioSource
 
     private float _feedTime = 0.1f; // 文字送り時間
     private float _t = 0f;
     private int _visibleLen = 0;
     private int _textLen = 0;
+    private List<string> _textList = new List<string>(); // テキストリスト
+    private int _currentIndex = 0; // 現在のテキストのインデックス
     
-    // テキストを設定
-    public void SetText(string text)
+    // テキストリストを設定
+    public void SetText(List<string> textList)
+    {
+        _textList = textList;
+        _currentIndex = 0;
+        if (_textList.Count > 0)
+        {
+            ShowText(_textList[_currentIndex]);
+        }
+    }
+
+    // テキストを表示
+    private void ShowText(string text)
     {
         textObj.text = text;
         _textLen = text.Length;
@@ -33,10 +47,30 @@ public class TypeWriterText : MonoBehaviour
                 _visibleLen++;
                 textObj.maxVisibleCharacters = _visibleLen; // 表示を1文字ずつ増やす
                 
-                // 追加: タイプライター音を再生
+                // タイプライター音を再生
                 if (audioSource != null && typeSound != null)
                 {
                     audioSource.PlayOneShot(typeSound);
+                }
+            }
+        }
+
+        // スペースキーを押した時の処理
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_visibleLen < _textLen)
+            {
+                // アニメーションが完了していない場合、即座に全表示
+                _visibleLen = _textLen;
+                textObj.maxVisibleCharacters = _visibleLen;
+            }
+            else
+            {
+                // 次のテキストを表示
+                _currentIndex++;
+                if (_currentIndex < _textList.Count)
+                {
+                    ShowText(_textList[_currentIndex]);
                 }
             }
         }
