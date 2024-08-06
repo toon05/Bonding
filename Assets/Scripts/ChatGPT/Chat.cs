@@ -20,7 +20,7 @@ public class Chat : MonoBehaviour
     [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "In this service where you raise a robot on your smartphone, you are a young robot being raised by a couple. Please respond to our conversations in simple, childish language. If something says [instructions], it is a command from the system, so please rewrite it to fit your worldview and ask the user. Also, please do not speak until you are spoken to or given instructions.";
     [SerializeField, Tooltip("パートナーに共有すべきか否かを判別するAIのsystem")] static string determineContent = "You are a robot raised by a couple. Please decide whether they will be pleased or displeased when I tell them what I have told you. If you should tell them, output “TRUE”; if not, output “FALSE”. For example, output TRUE if “seeing you smile makes me feel better” and FALSE if “I want you to at least do the dishes.";
     
-    [SerializeField] string apiKey = "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"; // NOTE: 入力したままコミットやリポジトリの公開などをしないこと
+    [SerializeField] string apiKey = "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"; // NOTE: 入力したままコミットやリポジトリの公開などをしないこと
 
     OpenAIChatCompletionAPI chatCompletionAPI;
     
