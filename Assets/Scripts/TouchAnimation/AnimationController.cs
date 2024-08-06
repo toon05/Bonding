@@ -6,6 +6,8 @@ public class AnimationController : MonoBehaviour
     [SerializeField] private AudioClip happySound;
     [SerializeField] private AudioSource naderareAudioSource;
     [SerializeField] private AudioSource happyAudioSource;
+    [SerializeField] private GameObject TouchAndMousePosition;
+    private TouchAndMousePosition touchAndMousePosition;
     private Animator animator;
     private static readonly int NaderareTrigger = Animator.StringToHash("naderareTrigger");
     private float keyPressTime = -1f; // キーが押された時間
@@ -15,15 +17,16 @@ public class AnimationController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        touchAndMousePosition = TouchAndMousePosition.GetComponent<TouchAndMousePosition>();
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
+        if (touchAndMousePosition.isAnimation)
         {
             OnKeyPress(1);
         }
-        else if (Input.GetKeyUp(KeyCode.Alpha1))
+        else if (!touchAndMousePosition.isAnimation)
         {
             OnKeyRelease(1);
         }

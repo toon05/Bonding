@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class TouchAndMousePosition : MonoBehaviour
 {
     public GameObject handImagePrefab; // hand画像のプレハブ
+    public bool isAnimation = false; // アニメーション中かどうか
     private GameObject handInstance;
     [SerializeField] private Canvas canvas;
     [SerializeField] private RectTransform displayArea; // GUIから指定できる範囲を設定するためのRectTransform
@@ -36,13 +37,13 @@ public class TouchAndMousePosition : MonoBehaviour
 
         if (shouldDisplay)
         {
-            // hand画像の位置をスクリーン座標からワールド座標に変換して設定
+            // hand画像の位置をスクリーン座標からローカル座標に変換して設定
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, screenPosition, canvas.worldCamera, out Vector2 localPoint);
 
             // 手画像が表示エリア内にあるか確認
             if (IsWithinDisplayArea(localPoint))
             {
-                handInstance.GetComponent<RectTransform>().localPosition = localPoint;
+                handInstance.GetComponent<RectTransform>().anchoredPosition = localPoint;
                 handInstance.SetActive(true); // hand画像を表示
             }
             else
@@ -54,14 +55,20 @@ public class TouchAndMousePosition : MonoBehaviour
         {
             handInstance.SetActive(false); // タッチやマウスが押されていないときはhand画像を非表示にする
         }
+
+        if (handInstance.activeSelf)
+        {
+            isAnimation = true;
+        }
+        else
+        {
+            isAnimation = false;
+        }
     }
 
-    private bool IsWithinDisplayArea(Vector2 position)
+    private bool IsWithinDisplayArea(Vector2 localPoint)
     {
-        // displayAreaのRectTransformから範囲を取得
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(displayArea, canvas.worldCamera.ViewportToScreenPoint(position), canvas.worldCamera, out Vector2 localPoint);
-
-        // 範囲内かどうかを確認
+        // displayAreaのRectTransformの範囲を確認
         return displayArea.rect.Contains(localPoint);
     }
 }
