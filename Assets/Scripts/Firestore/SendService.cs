@@ -36,7 +36,7 @@ public class SendService : MonoBehaviour
             DocumentReference docRef = db.Collection(sendCollectionName).Document(documentID);
 
             // データを送信
-            await docRef.SetAsync(dictionary).ContinueWithOnMainThread(task => {
+            await docRef.UpdateAsync(dictionary).ContinueWithOnMainThread(task => {
                 if (task.IsFaulted)
                 {
                     Debug.LogError($"Error sending data: {task.Exception}");

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class ReceiveService : MonoBehaviour
 {
@@ -56,36 +57,29 @@ public class ReceiveService : MonoBehaviour
         // 例: messageTextObject.text = $"{time}: {messageText}";
     }
 
-    // コレクションからデータを取得するメソッド
-    public void GetDataFromCollection(string collectionName)
+    // コレクションからデータを取得する非同期メソッド
+    public async Task<Dictionary<string, object>> GetDataAsync(string collectionName, string documentID)
     {
         if (db == null)
         {
             Debug.LogError("Firestore is not initialized.");
-            return;
+            return null;
         }
 
-        CollectionReference collectionRef = db.Collection(collectionName);
-        collectionRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Error getting documents: " + task.Exception);
-                return;
-            }
+        var documentRef = db.Collection(collectionName).Document(documentID);
+        DocumentSnapshot document = await documentRef.GetSnapshotAsync();
 
-            QuerySnapshot snapshot = task.Result;
-            foreach (DocumentSnapshot document in snapshot.Documents)
-            {
-                Dictionary<string, object> documentData = document.ToDictionary();
-                Debug.Log($"Document data for {document.Id}: {documentData}");
-                // ここで documentData を処理する
-                foreach(string key in documentData.Keys)
-                {
-                    Debug.Log($"{key}: {documentData[key]}");
-                }
-            }
-        });
+        if (document.Exists)
+        {
+            var documentData = document.ToDictionary();
+            Debug.Log($"Document data for {document.Id}: {documentData}");
+            return documentData;
+        }
+        else
+        {
+            Debug.Log("Document does not exist.");
+            return null;
+        }
     }
 
     void OnDestroy()

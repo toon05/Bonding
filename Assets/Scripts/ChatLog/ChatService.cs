@@ -9,8 +9,10 @@ public class ChatService : MonoBehaviour
     [SerializeField] private GameObject BotTalkBox;
     [SerializeField] private GameObject BotNamePlate;
     [SerializeField] private GameObject QuestionButton;
+    [SerializeField] private GameObject RandomQuestion;
     private TextToJson textToJson;
     private TypeWriterText typeWriterText;
+    private RandomQuestion randomQuestion;
     private int maxWords = 50;
 
     // Start is called before the first frame update
@@ -18,15 +20,17 @@ public class ChatService : MonoBehaviour
     {
         textToJson = TextToJson.GetComponent<TextToJson>();
         typeWriterText = TypeWriterText.GetComponent<TypeWriterText>();
+        randomQuestion = RandomQuestion.GetComponent<RandomQuestion>();
     }
 
     void Update()
     {
         if (typeWriterText.isTalking == false)
         {
-            QuestionButton.SetActive(true);
-            BotNamePlate.SetActive(true);
-            BotTalkBox.SetActive(false);
+            if (!randomQuestion.isQuestion)
+            {
+                AfterTalk();
+            }
         }
     }
 
@@ -43,5 +47,12 @@ public class ChatService : MonoBehaviour
             List<string> messageList = MessageSplitter.SplitMessage(message, maxWords);
             typeWriterText.SetText(messageList);
         }
+    }
+
+    public void AfterTalk()
+    {
+        QuestionButton.SetActive(true);
+        BotNamePlate.SetActive(true);
+        BotTalkBox.SetActive(false);
     }
 }
