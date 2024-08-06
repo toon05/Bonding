@@ -1,51 +1,48 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TouchAndMousePosition : MonoBehaviour
 {
+    public GameObject handImagePrefab; // hand画像のプレハブ
+    private GameObject handInstance;
+    [SerializeField] private Canvas canvas;
+
+    void Start()
+    {
+        // プレハブからhand画像のインスタンスをCanvasの子として作成
+        handInstance = Instantiate(handImagePrefab, canvas.transform);
+        handInstance.SetActive(false); // 初期状態では非表示にする
+    }
+
     void Update()
     {
-        // 画面に触れている指の数を取得
-        int touchCount = Input.touchCount;
+        Vector2 screenPosition = Vector2.zero;
+        bool shouldDisplay = false;
 
-        // 画面に触れている指があるか確認
-        if (touchCount > 0)
+        // タッチ入力を確認
+        if (Input.touchCount > 0)
         {
-            // すべての指について処理を行う
-            for (int i = 0; i < touchCount; i++)
-            {
-                // 指の情報を取得
-                Touch touch = Input.GetTouch(i);
-
-                // 指の位置を取得
-                Vector2 touchPosition = touch.position;
-
-                // 指の位置をデバッグログに出力
-                Debug.Log("Touch Position: " + touchPosition);
-
-                // 指の位置をワールド座標に変換
-                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(touchPosition.x, touchPosition.y, 0));
-                Debug.Log("World Position: " + worldPosition);
-
-                // 指の位置に基づいて処理を行う
-                // ここに具体的な処理を追加
-            }
+            Touch touch = Input.GetTouch(0); // 一番最初の指を取得
+            screenPosition = touch.position;
+            shouldDisplay = true;
+        }
+        // マウス入力を確認
+        else if (Input.GetMouseButton(0))
+        {
+            screenPosition = Input.mousePosition;
+            shouldDisplay = true;
         }
 
-        // 左クリックがホールドされているか確認
-        if (Input.GetMouseButton(0))
+        if (shouldDisplay)
         {
-            // マウスカーソルの位置を取得
-            Vector2 mousePosition = Input.mousePosition;
-
-            // マウスカーソルの位置をデバッグログに出力
-            Debug.Log("Mouse Position: " + mousePosition);
-
-            // マウスカーソルの位置をワールド座標に変換
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 0));
-            Debug.Log("World Position: " + worldPosition);
-
-            // マウスカーソルの位置に基づいて処理を行う
-            // ここに具体的な処理を追加
+            // hand画像の位置をスクリーン座標からワールド座標に変換して設定
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, screenPosition, canvas.worldCamera, out Vector2 localPoint);
+            handInstance.GetComponent<RectTransform>().localPosition = localPoint;
+            handInstance.SetActive(true); // hand画像を表示
+        }
+        else
+        {
+            handInstance.SetActive(false); // タッチやマウスが押されていないときはhand画像を非表示にする
         }
     }
 }
