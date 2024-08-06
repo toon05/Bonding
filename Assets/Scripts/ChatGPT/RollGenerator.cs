@@ -26,8 +26,9 @@ public class RollGenerator : IRollGenerator
     /// ロール用のプロンプトを生成する
     /// </summary>
     /// <returns></returns>
-    public string GeneratePrompt()
+    public string GeneratePrompt(int gl)
     {
+        _growthLevel = gl;
         string prompt = "";
         prompt += _initialText + "\n";
         prompt += _growthRateTexts[_growthLevel] + "\n";
