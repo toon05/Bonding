@@ -10433,14 +10433,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chatGptModel: 0
   chatGptTemperature: 1
-  messageViewTemplete: {fileID: 0}
-  inputField: {fileID: 0}
-  scrollRect: {fileID: 0}
-  sendButton: {fileID: 0}
-  talkButton: {fileID: 0}
-  sendService: {fileID: 0}
-  textToJson: {fileID: 0}
-  apiKey: sk_proj_RDv6IxJqvZefDF7dTg8XT3BlbkFJtqJlja4ZxkU5xYQ4uyBC
+  sendService: {fileID: 753547317}
+  textToJson: {fileID: 1931979420}
+  apiKey: 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
   _talkPartnerThemes: []
 --- !u!1 &1949648403
 GameObject:
@@ -11040,7 +11035,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 50.00003}
+  m_AnchoredPosition: {x: -5, y: 50}
   m_SizeDelta: {x: -10, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2027959669
