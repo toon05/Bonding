@@ -117,10 +117,10 @@ public class RandomQuestion : MonoBehaviour
                 Debug.LogError("質問のキーが見つかりません。");
             }
 
-            // string randomQuestion = await chat.ConvertTopicToSpokenLanguage(randomTopic);
+            string randomQuestion = await chat.ConvertTopicToSpokenLanguage(randomTopic);
 
             // 選ばれた質問をChatServiceに登録
-            chatService.RegisterChat("BOT", randomTopic);
+            chatService.RegisterChat("BOT", randomQuestion);
         }
         else
         {
