@@ -48,7 +48,7 @@ public class Chat : MonoBehaviour
         chatCompletionAPI = new OpenAIChatCompletionAPI(apiKey);
         
         // ユーザーの名前などをここで初期化
-        SetSystemContent(0, "papa", "mama");
+        SetSystemContent(0, "パパ", "ママ");
         
         // // 総会話数を読み込む
         //
