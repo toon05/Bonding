@@ -16,6 +16,7 @@ public class Chat : MonoBehaviour
     // [SerializeField] private Button sendButton;
     // [SerializeField] private Button talkButton;
     [SerializeField] private SendService sendService;
+    [SerializeField] private ReceiveService receiveService;
     [SerializeField] private TextToJson textToJson;
     [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "スマートフォンでロボットを育てるサービスで、あなたは夫婦に育てられる幼いロボットです。私たちの会話には、子供っぽい簡単な言葉で答えてください。文頭に【指示】と書かれている場合には、それはシステムからの命令ですので、自分の世界観に合うように書き換えてユーザーに聞いてください。また、話しかけられたり、指示があるまで喋らないでください。";
     [SerializeField, Tooltip("パートナーに共有すべきか否かを判別するAIのsystem")] static string determineContent = "あなたは夫婦に育てられたロボットです。私があなたに話したことを彼らに伝えたとき、彼らが喜ぶか不機嫌になるかを決めてください。伝えるべき場合は「TRUE」を、伝えない場合は「FALSE」を出力してください。例えば、「あなたの笑顔を見ると気分が良くなる」ならTRUEを、「皿洗いくらいはしてほしい」ならFALSEを出力してください。";
@@ -58,7 +59,7 @@ public class Chat : MonoBehaviour
     public void SetSystemContent(int growthLevel, string playerName, string partnerName)
     {
         _rollGenerator = new RollGenerator(growthLevel, playerName, partnerName);
-        context.Add(new OpenAIChatCompletionAPI.Message(){role = "system", content = _rollGenerator.GeneratePrompt()});
+        context.Add(new OpenAIChatCompletionAPI.Message(){role = "system", content = _rollGenerator.GeneratePrompt(receiveService.messageCount)});
     }
 
     /// <summary>
