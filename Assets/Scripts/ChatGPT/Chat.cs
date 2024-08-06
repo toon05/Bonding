@@ -166,7 +166,7 @@ public class Chat : MonoBehaviour
         var cancellationToken = this.GetCancellationTokenOnDestroy();
 
         await UniTask.DelayFrame(1, cancellationToken:cancellationToken);
-        scrollRect.verticalNormalizedPosition = 0;
+        // scrollRect.verticalNormalizedPosition = 0;
 
         var response = await chatCompletionAPI.CreateCompletionRequest(
             new OpenAIChatCompletionAPI.RequestData() { messages = context, model = chatGptModel.GetStringValue(), temperature = chatGptTemperature},
