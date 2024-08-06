@@ -16,7 +16,7 @@ public class Chat : MonoBehaviour
     [SerializeField] private Button sendButton;
     [SerializeField] private Button talkButton;
     [SerializeField] private SendService sendService;
-    [SerializeField] private ChatLogger chatLogger;
+    [SerializeField] private TextToJson textToJson;
     [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "In this service where you raise a robot on your smartphone, you are a young robot being raised by a couple. Please respond to our conversations in simple, childish language. If something says [instructions], it is a command from the system, so please rewrite it to fit your worldview and ask the user. Also, please do not speak until you are spoken to or given instructions.";
     [SerializeField, Tooltip("パートナーに共有すべきか否かを判別するAIのsystem")] static string determineContent = "You are a robot raised by a couple. Please decide whether they will be pleased or displeased when I tell them what I have told you. If you should tell them, output “TRUE”; if not, output “FALSE”. For example, output TRUE if “seeing you smile makes me feel better” and FALSE if “I want you to at least do the dishes.";
     
@@ -266,7 +266,7 @@ public class Chat : MonoBehaviour
         
         
         // ログに追加する処理
-        chatLogger.AddMessage("BOT", message.content);
+        textToJson.AddMessage("BOT", message.content);
         
         
         var messageView = Instantiate(messageViewTemplete);
