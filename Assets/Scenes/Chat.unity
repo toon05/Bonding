@@ -3350,8 +3350,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   talkThemeAsset: {fileID: 11400000, guid: 59880f88b8759f84d8b826d3bbe1f1f1, type: 2}
   ChatService: {fileID: 1931979419}
+  ReceiveService: {fileID: 753547314}
+  Chat: {fileID: 1931979419}
   isQuestion: 0
   questionKey: 
+  birthdayPanel: {fileID: 1660522914}
+  firstPersonPanel: {fileID: 634595828}
+  honorificPanel: {fileID: 1025544230}
+  questionButton: {fileID: 1368253153}
 --- !u!1 &572844874
 GameObject:
   m_ObjectHideFlags: 0
@@ -4356,6 +4362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d7e4bf9b26575408578cdb3d2d1b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageCount: 0
 --- !u!114 &753547317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6782,19 +6789,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1368253154}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 558834523}
-        m_TargetAssemblyTypeName: RandomQuestion, Assembly-CSharp
-        m_MethodName: OnClickQuestionButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1368253154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9519,6 +9514,7 @@ GameObject:
   - component: {fileID: 1931979423}
   - component: {fileID: 1931979424}
   - component: {fileID: 1931979425}
+  - component: {fileID: 1931979426}
   m_Layer: 0
   m_Name: ChatSystem
   m_TagString: Untagged
@@ -9597,6 +9593,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cbea1dc9bb624446b3b7617d94336eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1931979426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931979419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f3567f81b4249819e86cbe9c87c5e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chatGptModel: 0
+  chatGptTemperature: 1
+  messageViewTemplete: {fileID: 0}
+  inputField: {fileID: 0}
+  scrollRect: {fileID: 0}
+  sendButton: {fileID: 0}
+  talkButton: {fileID: 0}
+  sendService: {fileID: 0}
+  textToJson: {fileID: 0}
+  apiKey: sk_proj_RDv6IxJqvZefDF7dTg8XT3BlbkFJtqJlja4ZxkU5xYQ4uyBC
+  _talkPartnerThemes: []
 --- !u!1 &1949648403
 GameObject:
   m_ObjectHideFlags: 0

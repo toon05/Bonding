@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Cysharp.Threading.Tasks;
 
 
 public class RandomQuestion : MonoBehaviour
@@ -9,8 +10,10 @@ public class RandomQuestion : MonoBehaviour
     [SerializeField] private TalkThemeAsset talkThemeAsset;
     [SerializeField] private GameObject ChatService;
     [SerializeField] private GameObject ReceiveService;
+    [SerializeField] private GameObject Chat;
     private ChatService chatService;
     private ReceiveService receiveService;
+    private Chat chat;
     private string[] allQuestions;
     private Dictionary<string, (string key, int index)> questionToKeyAndIndexMap;
     public bool isQuestion = false;
@@ -28,6 +31,7 @@ public class RandomQuestion : MonoBehaviour
     {
         chatService = ChatService.GetComponent<ChatService>();
         receiveService = ReceiveService.GetComponent<ReceiveService>();
+        chat = Chat.GetComponent<Chat>();
         AssignOnClickMethod(OnClickQuestionButton);
 
         if (talkThemeAsset != null)
@@ -66,20 +70,20 @@ public class RandomQuestion : MonoBehaviour
     }
 
     // 質問ボタンがクリックされた時の処理
-    public void OnClickQuestionButton()
+    public async void OnClickQuestionButton()
     {
         if (allQuestions.Length > 0)
         {
             isQuestion = true;
             
             // ランダムに質問を選ぶ
-            string randomQuestion = allQuestions[Random.Range(0, allQuestions.Length)];
+            string randomTopic = allQuestions[Random.Range(0, allQuestions.Length)];
             
             // 選ばれた質問をDebug.Logで表示
-            Debug.Log("ランダムな質問: " + randomQuestion);
+            Debug.Log("ランダムな質問: " + randomTopic);
 
             // 選ばれた質問が属するキーとインデックスを特定して表示
-            if (questionToKeyAndIndexMap.TryGetValue(randomQuestion, out var value))
+            if (questionToKeyAndIndexMap.TryGetValue(randomTopic, out var value))
             {
                 string key = value.key;
                 int index = value.index;
@@ -92,6 +96,8 @@ public class RandomQuestion : MonoBehaviour
             {
                 Debug.LogError("質問のキーが見つかりません。");
             }
+
+            string randomQuestion = await chat.ConvertTopicToSpokenLanguage(randomTopic);
 
             // 選ばれた質問をChatServiceに登録
             chatService.RegisterChat("BOT", randomQuestion);
