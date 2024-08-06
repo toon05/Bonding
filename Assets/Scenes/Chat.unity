@@ -470,7 +470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180, y: -15}
+  m_AnchoredPosition: {x: 180, y: -20}
   m_SizeDelta: {x: 320, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &78791171
@@ -520,8 +520,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1419,7 +1419,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1931979423}
-        m_TargetAssemblyTypeName: ChatSystem, Assembly-CSharp
+        m_TargetAssemblyTypeName: UpdateChatLog, Assembly-CSharp
         m_MethodName: OnLoadChatLogButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -3034,6 +3034,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874520797}
   m_CullTransparentMesh: 1
+--- !u!1 &883575971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883575972}
+  - component: {fileID: 883575974}
+  - component: {fileID: 883575973}
+  m_Layer: 5
+  m_Name: Triangle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &883575972
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883575971}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1791593471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 142.23, y: -53.600006}
+  m_SizeDelta: {x: 35.55, y: 24.49}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &883575973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883575971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a7b6a01e8485d2246895e57464921f90, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &883575974
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883575971}
+  m_CullTransparentMesh: 1
 --- !u!1 &902333190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,7 +3175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d12011c72e73c44880aba6fe797795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChatLogger: {fileID: 1931979419}
+  TextToJson: {fileID: 1931979419}
   inputText: {fileID: 824737493}
 --- !u!4 &924566000
 Transform:
@@ -5923,10 +5998,10 @@ RectTransform:
   - {fileID: 9275096}
   - {fileID: 1586097921}
   - {fileID: 1535330425}
+  - {fileID: 1791593471}
   - {fileID: 1673166137}
   - {fileID: 1101866897}
   - {fileID: 1660522915}
-  - {fileID: 1791593471}
   m_Father: {fileID: 248803608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5965,6 +6040,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 883575972}
   - {fileID: 78791170}
   m_Father: {fileID: 1789849516}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6218,9 +6294,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1931979421}
   - component: {fileID: 1931979420}
-  - component: {fileID: 1931979422}
   - component: {fileID: 1931979423}
   - component: {fileID: 1931979424}
+  - component: {fileID: 1931979425}
   m_Layer: 0
   m_Name: ChatSystem
   m_TagString: Untagged
@@ -6255,20 +6331,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1931979422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931979419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7809a7c3655ed244d9f7261d7f14e663, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chatLogger: {fileID: 1931979420}
-  textChatWindow: {fileID: 173194227}
 --- !u!114 &1931979423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6281,7 +6343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0adca5a1bb5f3449d07dee7c366546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatLogger: {fileID: 1931979420}
+  textToJson: {fileID: 1931979420}
   textChatWindow: {fileID: 173194227}
 --- !u!114 &1931979424
 MonoBehaviour:
@@ -6295,8 +6357,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029197370eb88d644b35c80c045d2fed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChatLogger: {fileID: 1931979419}
+  TextToJson: {fileID: 1931979419}
   TypeWriterText: {fileID: 1791593470}
+  BotTalkBox: {fileID: 1791593470}
+--- !u!114 &1931979425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931979419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cbea1dc9bb624446b3b7617d94336eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1991569049
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,25 +6,25 @@ using UnityEngine.UI;
 
 public class AAAAA : MonoBehaviour
 {
-    public GameObject ChatLogger;
-    private ChatLogger chatLogger;
+    public GameObject TextToJson;
+    private TextToJson textToJson;
     public GameObject inputText;
     private TMP_InputField inputField;
     private string message;
 
     void Start()
     {
-        if (ChatLogger != null)
+        if (TextToJson != null)
         {
-            chatLogger = ChatLogger.GetComponent<ChatLogger>();
-            if (chatLogger == null)
+            textToJson = TextToJson.GetComponent<TextToJson>();
+            if (textToJson == null)
             {
-                Debug.LogError("ChatLogger component not found on ChatLogger GameObject.");
+                Debug.LogError("TextToJson component not found on TextToJson GameObject.");
             }
         }
         else
         {
-            Debug.LogError("ChatLogger GameObject is not assigned.");
+            Debug.LogError("TextToJson GameObject is not assigned.");
         }
 
         if (inputText != null)
@@ -43,27 +43,27 @@ public class AAAAA : MonoBehaviour
 
     public void OnClickMineButton()
     {
-        if (inputField != null && chatLogger != null)
+        if (inputField != null && textToJson != null)
         {
             message = inputField.text;
-            chatLogger.AddMessage("UserID_123", message);
+            textToJson.AddMessage("UserID_123", message);
         }
         else
         {
-            Debug.LogError("inputField or chatLogger is null.");
+            Debug.LogError("inputField or textToJson is null.");
         }
     }
 
     public void OnClickOpponentButton()
     {
-        if (inputField != null && chatLogger != null)
+        if (inputField != null && textToJson != null)
         {
             message = inputField.text;
-            chatLogger.AddMessage("BOT", message);
+            textToJson.AddMessage("BOT", message);
         }
         else
         {
-            Debug.LogError("inputField or chatLogger is null.");
+            Debug.LogError("inputField or textToJson is null.");
         }
     }
 }

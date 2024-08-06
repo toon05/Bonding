@@ -39,6 +39,6 @@ public static class MessageSplitter
 
     private static bool IsPunctuation(char c)
     {
-        return c == '。' || c == '、' || c == '.' || c == ',' || char.IsPunctuation(c);
+        return c == '。' || c == '、' || c == '.' || c == ',' || c == '！' || c == '？' || c == '!' || c == '?' || char.IsPunctuation(c);
     }
 }

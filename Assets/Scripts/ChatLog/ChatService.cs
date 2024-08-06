@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class ChatService : MonoBehaviour
 {
-    [SerializeField] private GameObject ChatLogger;
+    [SerializeField] private GameObject TextToJson;
     [SerializeField] private GameObject TypeWriterText;
-    private ChatLogger chatLogger;
+    [SerializeField] private GameObject BotTalkBox;
+    private TextToJson textToJson;
     private TypeWriterText typeWriterText;
-    private int maxWords = 32;
+    private int maxWords = 50;
 
     // Start is called before the first frame update
     void Start()
     {
-        chatLogger = ChatLogger.GetComponent<ChatLogger>();
+        textToJson = TextToJson.GetComponent<TextToJson>();
         typeWriterText = TypeWriterText.GetComponent<TypeWriterText>();
     }
 
     public void RegisterChat(string speaker, string message)
     {
         Debug.Log("RegisterChat");
-        chatLogger.AddMessage(speaker, message);
+        textToJson.AddMessage(speaker, message);
         if (speaker == "BOT")
         {
+            BotTalkBox.SetActive(true);
             List<string> messageList = MessageSplitter.SplitMessage(message, maxWords);
             typeWriterText.SetText(messageList);
         }

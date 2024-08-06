@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class ChatLogViewer : MonoBehaviour
 {
-    public ChatLogger chatLogger;  // ChatLoggerのインスタンス
+    public TextToJson textToJson;  // TextToJsonのインスタンス
     public TextChatWindow textChatWindow;  // TextChatWindowのインスタンス
 
     private void Start()
     {
-        if (chatLogger != null && textChatWindow != null)
+        if (textToJson != null && textChatWindow != null)
         {
-            ChatLog chatLog = chatLogger.ChatLog;
+            ChatLog chatLog = textToJson.ChatLog;
             textChatWindow.DisplayChatLog(chatLog);
         }
         else
         {
-            Debug.LogError("ChatLoggerまたはTextChatWindowの参照が設定されていません！");
+            Debug.LogError("TextToJsonまたはTextChatWindowの参照が設定されていません！");
         }
     }
 }

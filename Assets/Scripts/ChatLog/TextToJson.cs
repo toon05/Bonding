@@ -17,7 +17,7 @@ public class ChatLog
     public List<ChatMessage> Messages = new List<ChatMessage>();
 }
 
-public class ChatLogger : MonoBehaviour
+public class TextToJson : MonoBehaviour
 {
     private ChatLog chatLog = new ChatLog();
     private string filePath;
