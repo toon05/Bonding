@@ -8,6 +8,7 @@ public class ChatService : MonoBehaviour
     [SerializeField] private GameObject TypeWriterText;
     [SerializeField] private GameObject BotTalkBox;
     [SerializeField] private GameObject BotNamePlate;
+    [SerializeField] private GameObject QuestionButton;
     private TextToJson textToJson;
     private TypeWriterText typeWriterText;
     private int maxWords = 50;
@@ -23,6 +24,7 @@ public class ChatService : MonoBehaviour
     {
         if (typeWriterText.isTalking == false)
         {
+            QuestionButton.SetActive(true);
             BotNamePlate.SetActive(true);
             BotTalkBox.SetActive(false);
         }
@@ -35,6 +37,7 @@ public class ChatService : MonoBehaviour
         if (speaker == "BOT")
         {
             // ネームプレート消して、テキストボックス表示
+            QuestionButton.SetActive(false);
             BotNamePlate.SetActive(false);
             BotTalkBox.SetActive(true);
             List<string> messageList = MessageSplitter.SplitMessage(message, maxWords);

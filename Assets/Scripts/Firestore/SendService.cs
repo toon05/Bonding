@@ -1,44 +1,48 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 using Firebase.Firestore;
+using System.Threading.Tasks;
 using Firebase.Extensions;
-using System;
 
 public class SendService : MonoBehaviour
 {
-    public FirebaseFirestore db;
+    private FirebaseFirestore db;
 
-    // Start is called before the first frame update
     void Start()
     {
+        // FireStoreのインスタンスを初期化
         db = FirebaseFirestore.DefaultInstance;
     }
 
-    // Update is called once per frame
-    void Update()
+    public async Task SendData(string sendCollectionName, string documentID, Dictionary<string, object> dictionary)
     {
-    
-    }
-
-    /// <summary>
-    /// テキストを送信
-    /// </summary>
-    /// <param name="sendText">送信するテキスト</param>
-    /// <param name="collectionName">送信先(events, relations)</param>
-    /// <param name="userId">送信元</param>
-    /// <param name="timeStamp">タイムスタンプ</param>
-    public void SendData(string collectionName, Dictionary<string, object> dictionary)
-    {
-        db.Collection(collectionName).AddAsync(dictionary).ContinueWithOnMainThread(task =>
+        try
         {
-            if (task.IsCompleted)
+            // FireStoreの初期化確認
+            if (db == null)
             {
-                Debug.Log("Document added with ID: " + task.Result.Id);
+                Debug.LogError("FireStore is not initialized. Make sure Firebase is properly set up.");
+                return;
             }
-            else if (task.IsFaulted)
-            {
-                Debug.LogError("Error adding document: " + task.Exception);
-            }
-        });
+
+            // コレクションとドキュメントの参照を取得
+            DocumentReference docRef = db.Collection(sendCollectionName).Document(documentID);
+
+            // データを送信
+            await docRef.SetAsync(dictionary).ContinueWithOnMainThread(task => {
+                if (task.IsFaulted)
+                {
+                    Debug.LogError($"Error sending data: {task.Exception}");
+                }
+                else if (task.IsCompleted)
+                {
+                    Debug.Log($"Data successfully sent to collection: {sendCollectionName}, document: {documentID}");
+                }
+            });
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error in SendData method: {e.Message}\nStackTrace: {e.StackTrace}");
+        }
     }
 }
