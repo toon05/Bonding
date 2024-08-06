@@ -1,21 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
+
 
 public class RandomQuestion : MonoBehaviour
 {
     [SerializeField] private TalkThemeAsset talkThemeAsset;
     [SerializeField] private GameObject ChatService;
+    [SerializeField] private GameObject ReceiveService;
     private ChatService chatService;
+    private ReceiveService receiveService;
     private string[] allQuestions;
     private Dictionary<string, (string key, int index)> questionToKeyAndIndexMap;
     public bool isQuestion = false;
     public string questionKey;
     public int? questionIndex;
 
+    [SerializeField] private GameObject birthdayPanel;
+    [SerializeField] private GameObject firstPersonPanel;
+    [SerializeField] private GameObject honorificPanel;
+
+    [SerializeField] private Button questionButton;
+
     // Start is called before the first frame update
     void Start()
     {
         chatService = ChatService.GetComponent<ChatService>();
+        receiveService = ReceiveService.GetComponent<ReceiveService>();
+        AssignOnClickMethod(OnClickQuestionButton);
 
         if (talkThemeAsset != null)
         {
@@ -31,12 +44,28 @@ public class RandomQuestion : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (receiveService.messageCount == 15 || receiveService.messageCount == 25 || receiveService.messageCount == 30)
+        {
+            AssignOnClickMethod(OnClickEventButton);
+        }
+        else
+        {
+            AssignOnClickMethod(OnClickQuestionButton);
+        }
     }
 
+    // ボタンの OnClick イベントにメソッドを割り当てるメソッド
+    public void AssignOnClickMethod(UnityAction action)
+    {
+        // 既存のリスナーを全て削除
+        questionButton.onClick.RemoveAllListeners();
+        // 新しいリスナーを追加
+        questionButton.onClick.AddListener(action);
+    }
+
+    // 質問ボタンがクリックされた時の処理
     public void OnClickQuestionButton()
     {
         if (allQuestions.Length > 0)
@@ -71,6 +100,24 @@ public class RandomQuestion : MonoBehaviour
         {
             Debug.Log("質問がありません。");
         }
+    }
+
+    // イベントボタンがクリックされた時の処理
+    public void OnClickEventButton()
+    {
+        if (receiveService.messageCount == 15)
+        {
+            birthdayPanel.SetActive(true);
+        }
+        else if (receiveService.messageCount == 25)
+        {
+            firstPersonPanel.SetActive(true);
+        }
+        else if (receiveService.messageCount == 30)
+        {
+            honorificPanel.SetActive(true);
+        }
+
     }
 
     // 全てのQuestionsリストを一つの配列に集める

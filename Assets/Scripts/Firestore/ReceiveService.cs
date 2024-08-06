@@ -7,34 +7,38 @@ using System.Threading.Tasks;
 public class ReceiveService : MonoBehaviour
 {
     FirebaseFirestore db;
-    Query query;
+    DocumentReference docRef;
     ListenerRegistration listener;
 
-    // Start is called before the first frame update
+    public int messageCount = 0;
+
     void Start()
     {
         db = FirebaseFirestore.DefaultInstance;
-        query = db.Collection("messages").OrderBy("Timestamp").Limit(10);
+        docRef = db.Collection("System").Document("messages");
         
         // Listenメソッドをここで呼び出す
-        listener = query.Listen(snapshot =>
+        listener = docRef.Listen(snapshot =>
         {
-            foreach (DocumentChange change in snapshot.GetChanges())
+            if (snapshot.Exists)
             {
-                if (change.ChangeType == DocumentChange.Type.Added)
+                // ドキュメントのデータを取得
+                Dictionary<string, object> data = snapshot.ToDictionary();
+
+                // messagesCountフィールドの値を取得してmessageCountに代入
+                if (data.ContainsKey("messagesCount") && data["messagesCount"] is long messagesCountValue)
                 {
-                    Debug.Log(string.Format("New message: {0}", change.Document.Id));
-                    DisplayMessage(change.Document.ToDictionary());
+                    messageCount = (int)messagesCountValue;
+                    Debug.Log($"messagesCount: {messageCount}");
                 }
-                else if (change.ChangeType == DocumentChange.Type.Modified)
+                else
                 {
-                    Debug.Log(string.Format("Modified message: {0}", change.Document.Id));
-                    DisplayMessage(change.Document.ToDictionary());
+                    Debug.LogWarning("messagesCountフィールドが存在しないか、形式が正しくありません。");
                 }
-                else if (change.ChangeType == DocumentChange.Type.Removed)
-                {
-                    Debug.Log(string.Format("Removed message: {0}", change.Document.Id));
-                }
+            }
+            else
+            {
+                Debug.Log("No messages document found in System collection.");
             }
         });
     }
@@ -43,18 +47,6 @@ public class ReceiveService : MonoBehaviour
     void Update()
     {
         
-    }
-
-    void DisplayMessage(Dictionary<string, object> messageData)
-    {
-        // メッセージデータをUIに反映する処理
-        string messageText = messageData["Message"].ToString();
-        Timestamp timestamp = (Timestamp)messageData["Timestamp"];
-        string time = timestamp.ToDateTime().ToString("yyyy-MM-dd HH:mm:ss");
-
-        // ここでUIにメッセージを表示する処理を実装
-        Debug.Log($"新着: {messageText} at {time}");
-        // 例: messageTextObject.text = $"{time}: {messageText}";
     }
 
     // コレクションからデータを取得する非同期メソッド
