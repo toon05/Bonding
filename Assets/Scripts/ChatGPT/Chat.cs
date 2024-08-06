@@ -158,6 +158,8 @@ public class Chat : MonoBehaviour
     {
         // 送信内容をクラスにまとめる
         var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = "[INSTRUCTIONS]" + topic};
+        context.Add(message);
+
         // // ChatGPTの返信を待つ
         // ChatCompletionRequest().Forget();
         
@@ -214,9 +216,6 @@ public class Chat : MonoBehaviour
         if (talkBody.HasAllowInput)
         {
             // イベントの質問に対して、プレイヤーの入力を受け付ける
-            
-            
-            
             
             
             // 入力された情報を、ロールの属性に追加する
