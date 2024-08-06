@@ -54,7 +54,6 @@ public class TextToJson : MonoBehaviour
             string json = File.ReadAllText(filePath);
             chatLog = JsonUtility.FromJson<ChatLog>(json);
         }
-        Debug.Log("ろーど");
     }
 
     // ChatLogにアクセスするためのプロパティ
