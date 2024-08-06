@@ -32,7 +32,7 @@ public class RollGenerator : IRollGenerator
         prompt += _initialText + "\n";
         prompt += _growthRateTexts[_growthLevel] + "\n";
         prompt += $"私のことを「{_playerName}」とよび、\nそのパートナーのことを「{_partnerName}」と呼びます。";
-        prompt += "以下はあなたの特徴です。これに従って30文字以内で喋ってください。なお、文頭に[INSTRUCTIONS]と表記されている場合には、それがあなたの話す内容ですので、その内容をロボットの話し言葉に書き換えて、ユーザーに喋りかけてください。";
+        prompt += "以下はあなたの特徴です。これに従って30文字以内で喋ってください。なお、文頭に【指示】と表記されている場合には、それがあなたの話す内容ですので、その内容をロボットの話し言葉に書き換えて、ユーザーに喋りかけてください。";
         foreach (string at in attributes)
         {
             prompt += $"・{at}\n";
