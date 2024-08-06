@@ -10559,6 +10559,7 @@ MonoBehaviour:
   chatGptModel: 0
   chatGptTemperature: 1
   sendService: {fileID: 753547317}
+  receiveService: {fileID: 753547316}
   textToJson: {fileID: 1931979420}
   apiKey: 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
   _talkPartnerThemes: []

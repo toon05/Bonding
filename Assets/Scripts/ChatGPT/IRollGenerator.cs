@@ -4,6 +4,6 @@ using UnityEngine;
 
 interface IRollGenerator
 {
-    string GeneratePrompt(); 
+    string GeneratePrompt(int gl); 
     void AddAttribute(string attribute);
 }
