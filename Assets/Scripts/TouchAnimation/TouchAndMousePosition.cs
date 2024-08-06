@@ -6,6 +6,7 @@ public class TouchAndMousePosition : MonoBehaviour
     public GameObject handImagePrefab; // hand画像のプレハブ
     private GameObject handInstance;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private RectTransform displayArea; // GUIから指定できる範囲を設定するためのRectTransform
 
     void Start()
     {
@@ -37,12 +38,30 @@ public class TouchAndMousePosition : MonoBehaviour
         {
             // hand画像の位置をスクリーン座標からワールド座標に変換して設定
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, screenPosition, canvas.worldCamera, out Vector2 localPoint);
-            handInstance.GetComponent<RectTransform>().localPosition = localPoint;
-            handInstance.SetActive(true); // hand画像を表示
+
+            // 手画像が表示エリア内にあるか確認
+            if (IsWithinDisplayArea(localPoint))
+            {
+                handInstance.GetComponent<RectTransform>().localPosition = localPoint;
+                handInstance.SetActive(true); // hand画像を表示
+            }
+            else
+            {
+                handInstance.SetActive(false); // 範囲外の場合は非表示
+            }
         }
         else
         {
             handInstance.SetActive(false); // タッチやマウスが押されていないときはhand画像を非表示にする
         }
+    }
+
+    private bool IsWithinDisplayArea(Vector2 position)
+    {
+        // displayAreaのRectTransformから範囲を取得
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(displayArea, canvas.worldCamera.ViewportToScreenPoint(position), canvas.worldCamera, out Vector2 localPoint);
+
+        // 範囲内かどうかを確認
+        return displayArea.rect.Contains(localPoint);
     }
 }
