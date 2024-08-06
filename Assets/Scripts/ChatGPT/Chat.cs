@@ -17,8 +17,8 @@ public class Chat : MonoBehaviour
     // [SerializeField] private Button talkButton;
     [SerializeField] private SendService sendService;
     [SerializeField] private TextToJson textToJson;
-    [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "In this service where you raise a robot on your smartphone, you are a young robot being raised by a couple. Please respond to our conversations in simple, childish language. If something says [instructions], it is a command from the system, so please rewrite it to fit your worldview and ask the user. Also, please do not speak until you are spoken to or given instructions.";
-    [SerializeField, Tooltip("パートナーに共有すべきか否かを判別するAIのsystem")] static string determineContent = "You are a robot raised by a couple. Please decide whether they will be pleased or displeased when I tell them what I have told you. If you should tell them, output “TRUE”; if not, output “FALSE”. For example, output TRUE if “seeing you smile makes me feel better” and FALSE if “I want you to at least do the dishes.";
+    [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "スマートフォンでロボットを育てるサービスで、あなたは夫婦に育てられる幼いロボットです。私たちの会話には、子供っぽい簡単な言葉で答えてください。文頭に【指示】と書かれている場合には、それはシステムからの命令ですので、自分の世界観に合うように書き換えてユーザーに聞いてください。また、話しかけられたり、指示があるまで喋らないでください。";
+    [SerializeField, Tooltip("パートナーに共有すべきか否かを判別するAIのsystem")] static string determineContent = "あなたは夫婦に育てられたロボットです。私があなたに話したことを彼らに伝えたとき、彼らが喜ぶか不機嫌になるかを決めてください。伝えるべき場合は「TRUE」を、伝えない場合は「FALSE」を出力してください。例えば、「あなたの笑顔を見ると気分が良くなる」ならTRUEを、「皿洗いくらいはしてほしい」ならFALSEを出力してください。";
     
     [SerializeField] string apiKey = "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"; // NOTE: 入力したままコミットやリポジトリの公開などをしないこと
 
@@ -137,7 +137,7 @@ public class Chat : MonoBehaviour
         Debug.Log("指示：" + firstMessage);
 
         // 送信内容をクラスにまとめる
-        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = "[INSTRUCTIONS]" + firstMessage};
+        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = "【指示】" + firstMessage};
         // 入力された内容をタイムラインに表示
         AppendMessage(message, false);
         
@@ -157,7 +157,7 @@ public class Chat : MonoBehaviour
     public async UniTask<string> ConvertTopicToSpokenLanguage(string topic)
     {
         // 送信内容をクラスにまとめる
-        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = "[INSTRUCTIONS]" + topic};
+        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = "【指示】" + topic};
         context.Add(message);
 
         // // ChatGPTの返信を待つ
