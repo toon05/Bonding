@@ -14,6 +14,13 @@ public class SendService : MonoBehaviour
         db = FirebaseFirestore.DefaultInstance;
     }
 
+    /// <summary>
+    /// FireStoreにデータを送信する
+    /// </summary>
+    /// <param name="sendCollectionName">送信先のコレクション</param>
+    /// <param name="documentID">コレクションの中のドキュメントを指定</param>
+    /// <param name="dictionary">送信するデータ(辞書型)</param>
+    /// <returns></returns>
     public async Task SendData(string sendCollectionName, string documentID, Dictionary<string, object> dictionary)
     {
         try
