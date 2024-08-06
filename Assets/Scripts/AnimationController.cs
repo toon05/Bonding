@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
+    [SerializeField] private AudioClip naderareSound;
+    [SerializeField] private AudioClip happySound;
+    [SerializeField] private AudioSource naderareAudioSource;
+    [SerializeField] private AudioSource happyAudioSource;
     private Animator animator;
     private static readonly int NaderareTrigger = Animator.StringToHash("naderareTrigger");
     private float keyPressTime = -1f; // キーが押された時間
@@ -24,8 +28,6 @@ public class AnimationController : MonoBehaviour
             OnKeyRelease(1);
         }
 
-        
-
         // キーが押された時間から経過時間を計算
         if (keyPressTime >= 0)
         {
@@ -38,6 +40,25 @@ public class AnimationController : MonoBehaviour
                 isCount = false;
             }
         }
+
+        // `isCount` が true の間に音を再生し続ける
+        if (isCount)
+        {
+            if (naderareAudioSource.clip != naderareSound || !naderareAudioSource.isPlaying)
+            {
+                naderareAudioSource.clip = naderareSound;
+                naderareAudioSource.loop = true; // ループさせる
+                naderareAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (naderareAudioSource.clip == naderareSound && naderareAudioSource.isPlaying)
+            {
+                naderareAudioSource.Stop();
+                naderareAudioSource.clip = null; // 再生中のクリップを解除
+            }
+        }
     }
 
     private void OnKeyPress(int keyId)
@@ -45,14 +66,14 @@ public class AnimationController : MonoBehaviour
         switch (keyId)
         {
             case 1:
-                    animator.SetBool(NaderareTrigger, true);
-                    if (!isCount)
-                    {
-                        keyPressTime = Time.time; // キーが押された時間を記録
-                        Debug.Log(keyPressTime);
-                        isCount = true;
-                    }
-                    break;
+                animator.SetBool(NaderareTrigger, true);
+                if (!isCount)
+                {
+                    keyPressTime = Time.time; // キーが押された時間を記録
+                    Debug.Log(keyPressTime);
+                    isCount = true;
+                }
+                break;
         }
     }
 
@@ -76,8 +97,8 @@ public class AnimationController : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("naderare"))
         {
-            Debug.Log("Transition to happy");
             animator.Play("happy");
+            happyAudioSource.PlayOneShot(happySound);
         }
     }
 }
