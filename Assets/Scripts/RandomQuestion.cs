@@ -26,12 +26,16 @@ public class RandomQuestion : MonoBehaviour
 
     [SerializeField] private Button questionButton;
 
+    [SerializeField] private GameObject EventControll;
+    private EventControll eventControll;
+
     // Start is called before the first frame update
     void Start()
     {
         chatService = ChatService.GetComponent<ChatService>();
         receiveService = ReceiveService.GetComponent<ReceiveService>();
         chat = Chat.GetComponent<Chat>();
+        eventControll = EventControll.GetComponent<EventControll>();
         AssignOnClickMethod(OnClickQuestionButton);
 
         if (talkThemeAsset != null)
@@ -50,15 +54,31 @@ public class RandomQuestion : MonoBehaviour
 
     void Update()
     {
-        if (receiveService.messageCount == 15 || receiveService.messageCount == 25 || receiveService.messageCount == 30)
+        Debug.Log($"messageCount: {receiveService.messageCount}");
+        Debug.Log($"isBirthday: {receiveService.isBirthday}, isFirstperson: {receiveService.isFirstperson}, isHonorific: {receiveService.isHonorific}");
+
+        if (receiveService.messageCount == 15 && receiveService.isBirthday == false)
         {
+            Debug.Log("Assigning OnClickEventButton");
+            AssignOnClickMethod(OnClickEventButton);
+        }
+        else if (receiveService.messageCount == 25 && receiveService.isFirstperson == false)
+        {
+            Debug.Log("Assigning OnClickEventButton");
+            AssignOnClickMethod(OnClickEventButton);
+        }
+        else if (receiveService.messageCount == 30 && receiveService.isHonorific == false)
+        {
+            Debug.Log("Assigning OnClickEventButton");
             AssignOnClickMethod(OnClickEventButton);
         }
         else
         {
+            Debug.Log("Assigning OnClickQuestionButton");
             AssignOnClickMethod(OnClickQuestionButton);
         }
     }
+
 
     // ボタンの OnClick イベントにメソッドを割り当てるメソッド
     public void AssignOnClickMethod(UnityAction action)
@@ -106,28 +126,35 @@ public class RandomQuestion : MonoBehaviour
         {
             Debug.Log("質問がありません。");
         }
+
+        Debug.Log(receiveService.isBirthday);
     }
 
     // イベントボタンがクリックされた時の処理
     public void OnClickEventButton()
     {
-        if (receiveService.messageCount == 15)
+        isQuestion = true;
+        Debug.Log("イベントボタンがクリックされました。");
+        if (receiveService.messageCount <= 15)
         {
+            Debug.Log("Assigning Birthday Panel");
             chatService.RegisterChat("BOT", "あなたの誕生日を\nおしえて！");
             birthdayPanel.SetActive(true);
         }
         else if (receiveService.messageCount == 25)
         {
+            Debug.Log("Assigning FirstPerson Panel");
             chatService.RegisterChat("BOT", "一人称どうしよう");
             firstPersonPanel.SetActive(true);
         }
         else if (receiveService.messageCount == 30)
         {
+            Debug.Log("Assigning Honorific Panel");
             chatService.RegisterChat("BOT", "敬語とか使った方がいいかな？");
             honorificPanel.SetActive(true);
         }
-
     }
+
 
     // 全てのQuestionsリストを一つの配列に集める
     private string[] CollectAllQuestions(TalkThemeAsset asset)

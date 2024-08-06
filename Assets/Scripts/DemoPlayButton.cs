@@ -25,7 +25,45 @@ public class DemoPlayButton : MonoBehaviour
         Debug.Log("Demo button clicked: " + demoIndex);
         sendService.SendData("System", "messages", new Dictionary<string, object>
         {
-            { "messagesCount", demoIndex }
+            { "messagesCount", demoIndex - 1 }
         });
+
+        if (demoIndex <= 15)
+        {
+            sendService.SendSetData("System", "events", new Dictionary<string, object>
+            {
+                { "birthday", 0 },
+                { "firstperson", "" },
+                { "honorific", 0 },
+                { "isBirthday", false },
+                { "isFirstperson", false },
+                { "isHonorific", false }
+            });
+        }
+        else if (demoIndex <= 25)
+        {
+            sendService.SendSetData("System", "events", new Dictionary<string, object>
+            {
+                { "birthday", 0 },
+                { "firstperson", "" },
+                { "honorific", 0 },
+                { "isBirthday", true },
+                { "isFirstperson", false },
+                { "isHonorific", false }
+            });
+            Debug.Log("押された " + demoIndex);
+        }
+        else if (demoIndex <= 30)
+        {
+            sendService.SendSetData("System", "events", new Dictionary<string, object>
+            {
+                { "birthday", 0 },
+                { "firstperson", "" },
+                { "honorific", 0 },
+                { "isBirthday", true },
+                { "isFirstperson", true },
+                { "isHonorific", false }
+            });
+        }
     }
 }

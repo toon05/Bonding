@@ -24,11 +24,15 @@ public class EventControll : MonoBehaviour
     [SerializeField] private GameObject FirstPersonPanel;
     [SerializeField] private GameObject HonorificPanel;
 
+    [SerializeField] private GameObject RandomQuestion;
+    private RandomQuestion randomQuestion;
+
     // Start is called before the first frame update
     void Start()
     {
         receiveService = ReceiveService.GetComponent<ReceiveService>();
         sendService = SendService.GetComponent<SendService>();
+        randomQuestion = RandomQuestion.GetComponent<RandomQuestion>();
 
         // 入力フィールドやスライダーの参照を取得
         birthdayInputField = BirthdayInputField.GetComponent<TMP_InputField>();
@@ -42,17 +46,14 @@ public class EventControll : MonoBehaviour
         string birthday = birthdayInputField.text;
         if (!string.IsNullOrEmpty(birthday))
         {
-            bool isBirthday = await GetValueFromDocument("System", "events", "isBirthday");
-            if (!isBirthday)
+            sendService.SendData("System", "events", new Dictionary<string, object>
             {
-                sendService.SendData("System", "events", new Dictionary<string, object>
-                {
-                    { "birthday", birthday },
-                    { "isBirthday", true }
-                });
-            }
+                { "birthday", birthday },
+                { "isBirthday", true }
+            });
         }
         BirthdayPanel.SetActive(false);
+        randomQuestion.isQuestion = false;
     }
 
     // 一人称を送信 
@@ -61,33 +62,27 @@ public class EventControll : MonoBehaviour
         string firstPerson = firstPersonInputField.text;
         if (!string.IsNullOrEmpty(firstPerson))
         {
-            bool isFirstPerson = await GetValueFromDocument("System", "events", "isFirstperson");
-            if (!isFirstPerson)
+            sendService.SendData("System", "events", new Dictionary<string, object>
             {
-                sendService.SendData("System", "messages", new Dictionary<string, object>
-                {
-                    { "firstperson", firstPerson },
-                    { "isFirstperson", true }
-                });
-            }
+                { "firstperson", firstPerson },
+                { "isFirstperson", true }
+            });
         }
         FirstPersonPanel.SetActive(false);
+        randomQuestion.isQuestion = false;
     }
 
     // 敬語の度合いを送信
     public async void OnClickHonorificButton()
     {
-        bool isHonorific = await GetValueFromDocument("System", "events", "isHonorific");
         float honorificValue = honorificSlider.value;
-        if (!isHonorific)
+        sendService.SendData("System", "events", new Dictionary<string, object>
         {
-            sendService.SendData("System", "messages", new Dictionary<string, object>
-            {
-                { "honorific", honorificValue },
-                { "isHonorific", true }
-            });
-        }
+            { "honorific", honorificValue },
+            { "isHonorific", true }
+        });
         HonorificPanel.SetActive(false);
+        randomQuestion.isQuestion = false;
     }
 
     // コレクションから指定したキーの値を取得するメソッド

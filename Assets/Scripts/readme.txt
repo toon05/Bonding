@@ -49,6 +49,9 @@ asyncなので、呼び出すときは↓みたいな感じで
 
 Dictionary<string, object> messages = await receiveService.GetDataAsync("System", "messages");
 
+総会話数だけはListenerを使ってリアルタイムに同期してます。
+ReceiveService.cのpublic int messagesCountという値を参照すれば現在の総会話数がわかるよ。
+
 ===================================================
 3. ランダム質問
 質問内容はAssets直下にあるQuestionDataという名前のScriptableObjectで管理してます。
