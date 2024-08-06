@@ -49,6 +49,10 @@ public class Chat : MonoBehaviour
         
         // ユーザーの名前などをここで初期化
         SetSystemContent(0, "papa", "mama");
+        
+        // 総会話数を読み込む
+        
+        
     }
 
     public void SetSystemContent(int growthLevel, string playerName, string partnerName)
@@ -142,6 +146,12 @@ public class Chat : MonoBehaviour
         
         // 総会話数を1増やす
         TalkCount++;
+        //sendService.SendData();
+    }
+
+    public void AddTalkCount()
+    {
+        TalkCount++;
     }
 
     /// <summary>
@@ -189,6 +199,12 @@ public class Chat : MonoBehaviour
             // 入力された情報を、ロールの属性に追加する
             string attribute = "";
             _rollGenerator.AddAttribute(attribute);
+            
+            Dictionary<string, object> dictionary = new Dictionary<string, object>
+            {
+                { "name", "test" },
+            };
+            // sendService.SendData("Event", "TestDocument", dictionary);
         }
     }
 
@@ -221,7 +237,7 @@ public class Chat : MonoBehaviour
             // パートナーに共有する
             Debug.Log("パートナーに、今の会話内容を共有します。");
             
-            //sendService.GetComponent<SendService>()?.SendData();
+            //sendService.SendData();
         }
         else
         {
