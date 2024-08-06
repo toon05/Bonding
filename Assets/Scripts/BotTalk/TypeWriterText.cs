@@ -14,10 +14,12 @@ public class TypeWriterText : MonoBehaviour
     private int _textLen = 0;
     private List<string> _textList = new List<string>(); // テキストリスト
     private int _currentIndex = 0; // 現在のテキストのインデックス
+    public bool isTalking = false;
     
     // テキストリストを設定
     public void SetText(List<string> textList)
     {
+        isTalking = true;
         _textList = textList;
         _currentIndex = 0;
         if (_textList.Count > 0)
@@ -71,6 +73,9 @@ public class TypeWriterText : MonoBehaviour
                 if (_currentIndex < _textList.Count)
                 {
                     ShowText(_textList[_currentIndex]);
+                } else
+                {
+                    isTalking = false;
                 }
             }
         }
