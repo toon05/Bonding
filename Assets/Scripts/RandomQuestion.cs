@@ -97,10 +97,10 @@ public class RandomQuestion : MonoBehaviour
                 Debug.LogError("質問のキーが見つかりません。");
             }
 
-            string randomQuestion = await chat.ConvertTopicToSpokenLanguage(randomTopic);
+            // string randomQuestion = await chat.ConvertTopicToSpokenLanguage(randomTopic);
 
             // 選ばれた質問をChatServiceに登録
-            chatService.RegisterChat("BOT", randomQuestion);
+            chatService.RegisterChat("BOT", randomTopic);
         }
         else
         {
@@ -113,14 +113,17 @@ public class RandomQuestion : MonoBehaviour
     {
         if (receiveService.messageCount == 15)
         {
+            chatService.RegisterChat("BOT", "あなたの誕生日を\nおしえて！");
             birthdayPanel.SetActive(true);
         }
         else if (receiveService.messageCount == 25)
         {
+            chatService.RegisterChat("BOT", "一人称どうしよう");
             firstPersonPanel.SetActive(true);
         }
         else if (receiveService.messageCount == 30)
         {
+            chatService.RegisterChat("BOT", "敬語とか使った方がいいかな？");
             honorificPanel.SetActive(true);
         }
 
