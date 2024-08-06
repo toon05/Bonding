@@ -10,11 +10,11 @@ public class Chat : MonoBehaviour
     [SerializeField] ChatGPTModel chatGptModel;
     [SerializeField, Range(0.0f, 2.0f), Tooltip("回答の自由度を設定します。数が大きいほど毎回異なる回答を、小さいほど毎回同じ回答をします。")] float chatGptTemperature = 1;
 
-    [SerializeField] private ChatMessageView messageViewTemplete;
-    [SerializeField] private InputField inputField;
-    [SerializeField] private ScrollRect scrollRect;
-    [SerializeField] private Button sendButton;
-    [SerializeField] private Button talkButton;
+    // [SerializeField] private ChatMessageView messageViewTemplete;
+    // [SerializeField] private InputField inputField;
+    // [SerializeField] private ScrollRect scrollRect;
+    // [SerializeField] private Button sendButton;
+    // [SerializeField] private Button talkButton;
     [SerializeField] private SendService sendService;
     [SerializeField] private TextToJson textToJson;
     [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "In this service where you raise a robot on your smartphone, you are a young robot being raised by a couple. Please respond to our conversations in simple, childish language. If something says [instructions], it is a command from the system, so please rewrite it to fit your worldview and ask the user. Also, please do not speak until you are spoken to or given instructions.";
@@ -64,22 +64,22 @@ public class Chat : MonoBehaviour
     /// <summary>
     /// 送信ボタンが押された時の処理
     /// </summary>
-    void OnSendClick()
-    {
-        // 未入力なら送信しない
-        if (string.IsNullOrEmpty(inputField.text)) return;
-        // 送信内容をクラスにまとめる
-        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = inputField.text};
-        // 入力された内容をタイムラインに表示
-        AppendMessage(message, true);
-
-        // パートナーに共有すべきかを判定
-        if (talkBody.HasAnalysisTalk) DetermineWhetherToShare(inputField.text);
-
-        inputField.text = "";
-        // ChatGPTの返信を待つ
-        ChatCompletionRequest().Forget();
-    }
+    // void OnSendClick()
+    // {
+    //     // 未入力なら送信しない
+    //     if (string.IsNullOrEmpty(inputField.text)) return;
+    //     // 送信内容をクラスにまとめる
+    //     var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = inputField.text};
+    //     // 入力された内容をタイムラインに表示
+    //     AppendMessage(message, true);
+    //
+    //     // パートナーに共有すべきかを判定
+    //     if (talkBody.HasAnalysisTalk) DetermineWhetherToShare(inputField.text);
+    //
+    //     inputField.text = "";
+    //     // ChatGPTの返信を待つ
+    //     ChatCompletionRequest().Forget();
+    // }
     
     /// <summary>
     /// こちらに伝えるパートナーの情報が追加された時に呼ぶ
@@ -192,7 +192,7 @@ public class Chat : MonoBehaviour
         var cancellationToken = this.GetCancellationTokenOnDestroy();
 
         await UniTask.DelayFrame(1, cancellationToken:cancellationToken);
-        scrollRect.verticalNormalizedPosition = 0;
+        // scrollRect.verticalNormalizedPosition = 0;
 
         var response = await chatCompletionAPI.CreateCompletionRequest(
             new OpenAIChatCompletionAPI.RequestData() { messages = context, model = chatGptModel.GetStringValue(), temperature = chatGptTemperature},
@@ -291,12 +291,12 @@ public class Chat : MonoBehaviour
         textToJson.AddMessage("BOT", message.content);
         
         
-        var messageView = Instantiate(messageViewTemplete);
-        messageView.gameObject.name = "message";
-        messageView.gameObject.SetActive(true);
-        messageView.transform.SetParent(messageViewTemplete.transform.parent, false);
-        messageView.Role = message.role;
-        messageView.Content = message.content;
+        // var messageView = Instantiate(messageViewTemplete);
+        // messageView.gameObject.name = "message";
+        // messageView.gameObject.SetActive(true);
+        // messageView.transform.SetParent(messageViewTemplete.transform.parent, false);
+        // messageView.Role = message.role;
+        // messageView.Content = message.content;
     }
 
     public enum ChatGPTModel
