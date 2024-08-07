@@ -49,6 +49,7 @@ public class SendQuestion : MonoBehaviour
         if (sendText != "")
         {
             Debug.Log("質問: " + sendText);
+            chatService.RegisterChat("User1", sendText);
 
             if (randomQuestion.isQuestion)
             {
