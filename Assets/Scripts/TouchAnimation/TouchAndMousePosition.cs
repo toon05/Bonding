@@ -12,6 +12,8 @@ public class TouchAndMousePosition : MonoBehaviour
     [SerializeField] private RectTransform displayArea; // GUIから指定できる範囲を設定するためのRectTransform
     private GraphicRaycaster graphicRaycaster; // GraphicRaycasterの参照を設定
 
+    [SerializeField] private GameObject[] panels; // パネルの配列
+
     void Start()
     {
         // プレハブからhand画像のインスタンスをCanvasの子として作成
@@ -25,18 +27,21 @@ public class TouchAndMousePosition : MonoBehaviour
         Vector2 screenPosition = Vector2.zero;
         bool shouldDisplay = false;
 
-        // タッチ入力を確認
-        if (Input.touchCount > 0)
+        foreach (var panel in panels)
         {
-            Touch touch = Input.GetTouch(0); // 一番最初の指を取得
-            screenPosition = touch.position;
-            shouldDisplay = true;
-        }
-        // マウス入力を確認
-        else if (Input.GetMouseButton(0))
-        {
-            screenPosition = Input.mousePosition;
-            shouldDisplay = true;
+            // タッチ入力を確認
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0); // 一番最初の指を取得
+                screenPosition = touch.position;
+                shouldDisplay = true;
+            }
+            // マウス入力を確認
+            else if (Input.GetMouseButton(0))
+            {
+                screenPosition = Input.mousePosition;
+                shouldDisplay = true;
+            }
         }
 
         if (shouldDisplay)
