@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Collections.Generic;
+using System.Linq;
 
 public class TouchAndMousePosition : MonoBehaviour
 {
@@ -10,15 +9,12 @@ public class TouchAndMousePosition : MonoBehaviour
     private GameObject handInstance;
     [SerializeField] private Canvas canvas;
     [SerializeField] private RectTransform displayArea; // GUIから指定できる範囲を設定するためのRectTransform
-    private GraphicRaycaster graphicRaycaster; // GraphicRaycasterの参照を設定
-
     [SerializeField] private GameObject[] panels; // パネルの配列
 
     void Start()
     {
         // プレハブからhand画像のインスタンスをCanvasの子として作成
         handInstance = Instantiate(handImagePrefab, canvas.transform);
-        graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
         handInstance.SetActive(false); // 初期状態では非表示にする
     }
 
@@ -27,7 +23,7 @@ public class TouchAndMousePosition : MonoBehaviour
         Vector2 screenPosition = Vector2.zero;
         bool shouldDisplay = false;
 
-        foreach (var panel in panels)
+        if (AreAllPanelsInactive())
         {
             // タッチ入力を確認
             if (Input.touchCount > 0)
@@ -50,14 +46,14 @@ public class TouchAndMousePosition : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, screenPosition, canvas.worldCamera, out Vector2 localPoint);
 
             // 手画像が表示エリア内にあるか確認
-            if (IsWithinDisplayArea(localPoint) && !IsPointerOverUI(screenPosition))
+            if (IsWithinDisplayArea(localPoint))
             {
                 handInstance.GetComponent<RectTransform>().anchoredPosition = localPoint;
                 handInstance.SetActive(true); // hand画像を表示
             }
             else
             {
-                handInstance.SetActive(false); // 範囲外やUI上の場合は非表示
+                handInstance.SetActive(false); // 範囲外の場合は非表示
             }
         }
         else
@@ -81,25 +77,8 @@ public class TouchAndMousePosition : MonoBehaviour
         return displayArea.rect.Contains(localPoint);
     }
 
-    private bool IsPointerOverUI(Vector2 screenPosition)
+    bool AreAllPanelsInactive()
     {
-        // マウスやタッチがUI上にあるかどうかを判定
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
-        pointerEventData.position = screenPosition;
-
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
-        graphicRaycaster.Raycast(pointerEventData, raycastResults);
-
-        // 結果があったとしても、対象がクリック可能なUIかどうかを判定する
-        foreach (var result in raycastResults)
-        {
-            if (result.gameObject.GetComponent<Button>() != null || result.gameObject.GetComponent<Image>() != null)
-            {
-                return true; // ボタンや画像がタッチ・クリックされた場合はUI上と判定
-            }
-        }
-
-        return false; // UIにタッチされていない場合
+        return panels.All(panel => !panel.activeSelf);
     }
-
 }
