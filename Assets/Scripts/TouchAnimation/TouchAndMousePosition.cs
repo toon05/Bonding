@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TouchAndMousePosition : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class TouchAndMousePosition : MonoBehaviour
     private GameObject handInstance;
     [SerializeField] private Canvas canvas;
     [SerializeField] private RectTransform displayArea; // GUIから指定できる範囲を設定するためのRectTransform
+    [SerializeField] private GameObject[] panels; // パネルの配列
 
     void Start()
     {
@@ -21,18 +23,21 @@ public class TouchAndMousePosition : MonoBehaviour
         Vector2 screenPosition = Vector2.zero;
         bool shouldDisplay = false;
 
-        // タッチ入力を確認
-        if (Input.touchCount > 0)
+        if (AreAllPanelsInactive())
         {
-            Touch touch = Input.GetTouch(0); // 一番最初の指を取得
-            screenPosition = touch.position;
-            shouldDisplay = true;
-        }
-        // マウス入力を確認
-        else if (Input.GetMouseButton(0))
-        {
-            screenPosition = Input.mousePosition;
-            shouldDisplay = true;
+            // タッチ入力を確認
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0); // 一番最初の指を取得
+                screenPosition = touch.position;
+                shouldDisplay = true;
+            }
+            // マウス入力を確認
+            else if (Input.GetMouseButton(0))
+            {
+                screenPosition = Input.mousePosition;
+                shouldDisplay = true;
+            }
         }
 
         if (shouldDisplay)
@@ -70,5 +75,10 @@ public class TouchAndMousePosition : MonoBehaviour
     {
         // displayAreaのRectTransformの範囲を確認
         return displayArea.rect.Contains(localPoint);
+    }
+
+    bool AreAllPanelsInactive()
+    {
+        return panels.All(panel => !panel.activeSelf);
     }
 }
