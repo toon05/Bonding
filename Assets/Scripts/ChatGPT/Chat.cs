@@ -18,6 +18,7 @@ public class Chat : MonoBehaviour
     [SerializeField] private SendService sendService;
     [SerializeField] private ReceiveService receiveService;
     [SerializeField] private TextToJson textToJson;
+    [SerializeField] private ChatService _chatService;
     [SerializeField, Tooltip("会話するAIのsystem")] static string systemContent = "スマートフォンでロボットを育てるサービスで、あなたは夫婦に育てられる幼いロボットです。私たちの会話には、子供っぽい簡単な言葉で答えてください。なお、文頭に【指示】と表記されている場合には、それがあなたの話す内容ですので、それ以降の内容をロボットの話し言葉に書き換えて、ユーザーに喋りかけてください。また、話しかけられたり、指示があるまで喋らないでください。";
     [SerializeField, Tooltip("パートナーに共有すべきか否かを判別するAIのsystem")] static string determineContent = "あなたは夫婦に育てられたロボットです。私があなたに話したことを彼らに伝えたとき、彼らが喜ぶか不機嫌になるかを決めてください。伝えるべき場合は「TRUE」を、伝えない場合は「FALSE」を出力してください。例えば、「あなたの笑顔を見ると気分が良くなる」ならTRUEを、「皿洗いくらいはしてほしい」ならFALSEを出力してください。";
     
@@ -181,10 +182,36 @@ public class Chat : MonoBehaviour
     }
 
     /// <summary>
+    /// 会話の流れで、AIが返答する
+    /// </summary>
+    /// <param name="content">ユーザーの発言</param>
+    /// <returns>AIの返答</returns>
+    public async UniTask<string> TalkWithAI(string content)
+    {
+        // 送信内容をクラスにまとめる
+        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = content};
+        context.Add(message);
+        
+        var cancellationToken = this.GetCancellationTokenOnDestroy();
+
+        await UniTask.DelayFrame(1, cancellationToken:cancellationToken);
+
+        var response = await chatCompletionAPI.CreateCompletionRequest(
+            new OpenAIChatCompletionAPI.RequestData() { messages = context, model = chatGptModel.GetStringValue(), temperature = chatGptTemperature},
+            cancellationToken
+        );
+
+        var spokenLanguage = response.choices[0].message;
+        await UniTask.DelayFrame(1, cancellationToken:cancellationToken);
+
+        return spokenLanguage.content;
+    }
+
+    /// <summary>
     /// ChatGPTの返信を待つ
     /// </summary>
     /// <returns></returns>
-    private async UniTask ChatCompletionRequest()
+    public async UniTask ChatCompletionRequest()
     {
         // // ChatGPTの返信待機中は、送信ボタンを非アクティブにする
         // sendButton.interactable = false;
@@ -203,6 +230,7 @@ public class Chat : MonoBehaviour
         var message = response.choices[0].message;
         // // ChatGPTの返信をタイムラインに表示
         // AppendMessage(message, true);
+        _chatService.RegisterChat("BOT", message.content);
 
         await UniTask.DelayFrame(1, cancellationToken:cancellationToken);
         // scrollRect.verticalNormalizedPosition = 0;
@@ -214,21 +242,21 @@ public class Chat : MonoBehaviour
         //     talkButton.interactable = true;
         // }
 
-        if (talkBody.HasAllowInput)
-        {
-            // イベントの質問に対して、プレイヤーの入力を受け付ける
-            
-            
-            // 入力された情報を、ロールの属性に追加する
-            string attribute = "";
-            _rollGenerator.AddAttribute(attribute);
-            
-            Dictionary<string, object> dictionary = new Dictionary<string, object>
-            {
-                { "name", "test" },
-            };
-            // sendService.SendData("Event", "TestDocument", dictionary);
-        }
+        // if (talkBody.HasAllowInput)
+        // {
+        //     // イベントの質問に対して、プレイヤーの入力を受け付ける
+        //     
+        //     
+        //     // 入力された情報を、ロールの属性に追加する
+        //     string attribute = "";
+        //     _rollGenerator.AddAttribute(attribute);
+        //     
+        //     Dictionary<string, object> dictionary = new Dictionary<string, object>
+        //     {
+        //         { "name", "test" },
+        //     };
+        //     // sendService.SendData("Event", "TestDocument", dictionary);
+        // }
     }
 
     /// <summary>

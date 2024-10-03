@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
+using Unity.Collections;
 
 public class SendQuestion : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class SendQuestion : MonoBehaviour
     [SerializeField] private GameObject ChatService;
     [SerializeField] private GameObject SendService;
     [SerializeField] private GameObject ReceiveService;
+    [SerializeField] private Chat chat;
     private TMP_InputField inputField;
     private RandomQuestion randomQuestion;
     private ChatService chatService;
@@ -74,6 +76,16 @@ public class SendQuestion : MonoBehaviour
             }
 
             inputField.text = "";
+            
+            // ↓柴谷追加==========================================================================
+            int a = Random.Range(0, 3);
+            if (a == 0)
+            {
+                string AIreply = await chat.TalkWithAI(sendText);
+                chatService.RegisterChat("BOT", AIreply);
+                Debug.Log("AIが返答します");
+            }
+            // ==================================================================================
 
             // GetDataAsyncメソッドからデータを取得
             Dictionary<string, object> messages = await receiveService.GetDataAsync("System", "messages");
