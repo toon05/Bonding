@@ -83,6 +83,11 @@ public class SendQuestion : MonoBehaviour
             {
                 string AIreply = await chat.TalkWithAI(sendText);
                 chatService.RegisterChat("BOT", AIreply);
+
+                // string DemoReply = "どこに住んでるのかな？";
+                // // 0.5秒後にAIの返答を表示
+                // await Task.Delay(500);
+                chatService.RegisterChat("BOT", AIreply);
                 Debug.Log("AIが返答します");
             }
             // ==================================================================================
