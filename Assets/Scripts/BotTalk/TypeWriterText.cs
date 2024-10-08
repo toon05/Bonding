@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class TypeWriterText : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class TypeWriterText : MonoBehaviour
     private List<string> _textList = new List<string>(); // テキストリスト
     private int _currentIndex = 0; // 現在のテキストのインデックス
     public bool isTalking = false;
+
+    [SerializeField] private GameObject[] panels; // パネルの配列
+    [SerializeField] private RectTransform displayArea; // GUIから指定できる範囲を設定するためのRectTransform
     
     // テキストリストを設定
     public void SetText(List<string> textList)
@@ -57,27 +61,36 @@ public class TypeWriterText : MonoBehaviour
             }
         }
 
-        // スペースキーを押した時の処理
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (AreAllPanelsInactive())
         {
-            if (_visibleLen < _textLen)
+            // タッチ入力がある場合の処理
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                // アニメーションが完了していない場合、即座に全表示
-                _visibleLen = _textLen;
-                textObj.maxVisibleCharacters = _visibleLen;
-            }
-            else
-            {
-                // 次のテキストを表示
-                _currentIndex++;
-                if (_currentIndex < _textList.Count)
+                if (_visibleLen < _textLen)
                 {
-                    ShowText(_textList[_currentIndex]);
-                } else
+                    // アニメーションが完了していない場合、即座に全表示
+                    _visibleLen = _textLen;
+                    textObj.maxVisibleCharacters = _visibleLen;
+                }
+                else
                 {
-                    isTalking = false;
+                    // 次のテキストを表示
+                    _currentIndex++;
+                    if (_currentIndex < _textList.Count)
+                    {
+                        ShowText(_textList[_currentIndex]);
+                    } 
+                    else
+                    {
+                        isTalking = false;
+                    }
                 }
             }
+        }
+
+        bool AreAllPanelsInactive()
+        {
+            return panels.All(panel => !panel.activeSelf);
         }
     }
 }
