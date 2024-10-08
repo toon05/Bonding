@@ -9309,8 +9309,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u308D\u307C\u305F\u308D\u3046"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9498093dbe7b04dc498f3502aa6674c6, type: 2}
-  m_sharedMaterial: {fileID: 3256685528682988613, guid: 9498093dbe7b04dc498f3502aa6674c6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9916,8 +9916,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9498093dbe7b04dc498f3502aa6674c6, type: 2}
-  m_sharedMaterial: {fileID: 3256685528682988613, guid: 9498093dbe7b04dc498f3502aa6674c6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10576,7 +10576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f3567f81b4249819e86cbe9c87c5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatGptModel: 0
+  chatGptModel: 1
   chatGptTemperature: 1
   sendService: {fileID: 753547317}
   receiveService: {fileID: 753547316}
@@ -11296,8 +11296,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9498093dbe7b04dc498f3502aa6674c6, type: 2}
-  m_sharedMaterial: {fileID: 3256685528682988613, guid: 9498093dbe7b04dc498f3502aa6674c6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
