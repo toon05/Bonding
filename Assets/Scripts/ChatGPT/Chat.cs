@@ -60,7 +60,10 @@ public class Chat : MonoBehaviour
     public void SetSystemContent(int growthLevel, string playerName, string partnerName)
     {
         _rollGenerator = new RollGenerator(growthLevel, playerName, partnerName);
-        context.Add(new OpenAIChatCompletionAPI.Message(){role = "system", content = _rollGenerator.GeneratePrompt(receiveService.messageCount)});
+        string prompt = _rollGenerator.GeneratePrompt(receiveService.messageCount);
+        context.Add(new OpenAIChatCompletionAPI.Message(){role = "system", content = prompt});
+        
+        Debug.Log($"プロンプトは「{prompt}」");
     }
 
     /// <summary>
@@ -159,7 +162,7 @@ public class Chat : MonoBehaviour
     public async UniTask<string> ConvertTopicToSpokenLanguage(string topic)
     {
         // 送信内容をクラスにまとめる
-        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = "【指示】\n" + topic};
+        var message = new OpenAIChatCompletionAPI.Message() { role = "user", content = "【以下は、あなたがユーザーに喋りかける内容です。内容をロボットの話し言葉に書き換えて、喋りかけてください。】\n" + topic};
         context.Add(message);
 
         // // ChatGPTの返信を待つ
