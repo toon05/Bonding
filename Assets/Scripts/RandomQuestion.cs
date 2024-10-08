@@ -119,6 +119,8 @@ public class RandomQuestion : MonoBehaviour
 
             string randomQuestion = await chat.ConvertTopicToSpokenLanguage(randomTopic);
 
+            // string randomQuestion = "サンタさんって本当にいるの？";
+
             // 選ばれた質問をChatServiceに登録
             chatService.RegisterChat("BOT", randomQuestion);
         }
