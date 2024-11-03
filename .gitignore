@@ -74,3 +74,6 @@ crashlytics-build.properties
 /Assets/TextMesh Pro/Fonts
 /Assets/TextMesh Pro/Resources/Fonts & Materials
 /Assets/Resources/Audio
+
+# Ignore .env file
+.env
